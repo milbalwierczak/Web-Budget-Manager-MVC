@@ -1,31 +1,46 @@
-<?php include $this->resolve("partials/_header.php"); ?>
+<?php include $this->resolve("partials/_navbar.php"); ?>
 
-<section class="max-w-2xl mx-auto mt-12 p-4 bg-white shadow-md border border-gray-200 rounded">
-    <form method="POST" class="grid grid-cols-1 gap-6">
-        <?php include $this->resolve('partials/_csrf.php'); ?>
+<header class="masthead">
+    <div class="container px-4 px-lg-5 h-100">
+        <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
+            <div class="form-signin col-10 col-md-6 col-xl-4 m-auto">
+                <form method="POST">
+                    <?php include $this->resolve('partials/_csrf.php'); ?>
+                    <h1 class="text-white font-weight-bold mb-5 mt-0">Witaj ponownie!</h1>
 
-        <label class="block">
-            <span class="text-gray-700">Email address</span>
-            <input value="<?php echo e($oldFormData['email'] ?? ''); ?>" name=" email" type="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="john@example.com" />
-            <?php if (array_key_exists('email', $errors)) : ?>
-                <div class="bg-gray-100 mt-2 p-2 text-red-500">
-                    <?php echo e($errors['email'][0]); ?>
-                </div>
-            <?php endif; ?>
-        </label>
-        <label class="block">
-            <span class="text-gray-700">Password</span>
-            <input name="password" type="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="" />
-            <?php if (array_key_exists('password', $errors)) : ?>
-                <div class="bg-gray-100 mt-2 p-2 text-red-500">
-                    <?php echo e($errors['password'][0]); ?>
-                </div>
-            <?php endif; ?>
-        </label>
-        <button type="submit" class="block w-full py-2 bg-indigo-600 text-white rounded">
-            Submit
-        </button>
-    </form>
-</section>
+                    <div class="form-floating">
+                        <input value="<?php echo e($oldFormData['email'] ?? ''); ?>" name="email" type="email" class="form-control" id="floatingInput" placeholder="">
+                        <label for="floatingInput"><i class="bi bi-envelope"></i> Email</label>
+                    </div>
+
+                    <?php if (array_key_exists('email', $errors)) : ?>
+                        <div class="error">
+                            <?php echo e($errors['email'][0]); ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="form-floating mt-3">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="" name="password">
+                        <label for="floatingPassword"><i class="bi bi-key"></i> Hasło</label>
+                    </div>
+
+                    <?php if (array_key_exists('password', $errors)) : ?>
+                        <div class="error">
+                            <?php echo e($errors['password'][0]); ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="form-check text-start my-3">
+                        <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+                        <label class="form-check-label text-white" for="flexCheckDefault">
+                            Zapamiętaj mnie
+                        </label>
+                    </div>
+                    <input type="submit" value="Zaloguj się" class="btn btn-primary btn-xl col-12 col-sm-6 py-3 my-3" />
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
 
 <?php include $this->resolve("partials/_footer.php"); ?>
