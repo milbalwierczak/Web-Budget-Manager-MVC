@@ -39,20 +39,6 @@ class HomeController
             $pages
         );
 
-        echo $this->view->render("/index.php", [
-            'transactions' => $transactions,
-            'currentPage' => $page,
-            'previousPageQuery' => http_build_query([
-                'p' => $page - 1,
-                's' => $searchTerm
-            ]),
-            'lastPage' => $lastPage,
-            'nextPageQuery' => http_build_query([
-                'p' => $page + 1,
-                's' => $searchTerm
-            ]),
-            'pageLinks' => $pageLinks,
-            'searchTerm' => $searchTerm
-        ]);
+        echo $this->view->render("/home.php");
     }
 }
