@@ -21,6 +21,7 @@ use App\Middleware\{
 function registerRoutes(App $app)
 {
     $app->get('/', [HomeController::class, 'home'])->add(AuthRequiredMiddleware::class);
+    $app->get('/index', [AuthController::class, 'indexView'])->add(GuestOnlyMiddleware::class);
     $app->get('/about', [AboutController::class, 'about']);
     $app->get('/register', [AuthController::class, 'registerView'])->add(GuestOnlyMiddleware::class);
     $app->post('/register', [AuthController::class, 'register'])->add(GuestOnlyMiddleware::class);

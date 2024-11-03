@@ -40,6 +40,11 @@ class AuthController
         echo $this->view->render("/login.php");
     }
 
+    public function indexView()
+    {
+        echo $this->view->render("/index.php");
+    }
+
 
     public function login()
     {
