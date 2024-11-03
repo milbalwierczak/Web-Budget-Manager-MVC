@@ -1,0 +1,6 @@
+cli.php
+database.sql
+/vendor/
+.env
+storage/uploads/*
+!storage/uploads/.gitkeep
