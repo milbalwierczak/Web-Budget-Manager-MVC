@@ -21,7 +21,6 @@ class FlashMiddleware implements MiddlewareInterface
 
         unset($_SESSION['oldFormData']);
 
-
         $next();
     }
 }

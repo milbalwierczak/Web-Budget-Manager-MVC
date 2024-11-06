@@ -63,6 +63,38 @@ class TransactionService
         return [$transactions, $transactionCount];
     }
 
+    public function getUserBalance(string $start_date = null, $end_date = null)
+    {
+        $start_date = $start_date ?? date('Y-m-01');
+        $end_date = $end_date ?? date('Y-m-t');
+
+        $expense = $this->db->query(
+            "SELECT SUM(amount)
+            FROM expenses
+            WHERE user_id = :user_id AND date_of_expense BETWEEN :start_date AND :end_date",
+            [
+                'user_id' => $_SESSION['user'],
+                'start_date' => $start_date,
+                'end_date' => $end_date
+            ]
+        )->sum();
+
+        $income = $this->db->query(
+            "SELECT SUM(amount)
+            FROM incomes
+            WHERE user_id = :user_id AND date_of_income BETWEEN :start_date AND :end_date",
+            [
+                'user_id' => $_SESSION['user'],
+                'start_date' => $start_date,
+                'end_date' => $end_date
+            ]
+        )->sum();
+
+        $balance = $income - $expense;
+
+        return $balance;
+    }
+
     public function getUserTransaction(string $id)
     {
         return $this->db->query(

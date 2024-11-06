@@ -21,8 +21,20 @@ class UserService
         )->count();
 
         if ($emailCount > 0) {
-            throw new ValidationException(['email' => 'Email taken']);
+            throw new ValidationException(['email' => ['Istnieje już konto o takim adresie email']]);
         }
+    }
+
+    public function getUserName()
+    {
+        $username = $this->db->query(
+            "SELECT username FROM users WHERE id = :id",
+            [
+                'id' => $_SESSION['user']
+            ]
+        )->count();
+
+        return $username;
     }
 
     public function create(array $formData): void
@@ -39,9 +51,32 @@ class UserService
             ]
         );
 
+        $user_id = $this->db->id();
+
+        $this->db->query(
+            "INSERT INTO expenses_category_assigned_to_users (user_id, name) SELECT :user_id, name FROM expenses_category_default",
+            [
+                'user_id' => $user_id
+            ]
+        );
+
+        $this->db->query(
+            "INSERT INTO incomes_category_assigned_to_users (user_id, name) SELECT :user_id, name FROM incomes_category_default",
+            [
+                'user_id' => $user_id
+            ]
+        );
+
+        $this->db->query(
+            "INSERT INTO payment_methods_assigned_to_users (user_id, name) SELECT :user_id, name FROM payment_methods_default",
+            [
+                'user_id' => $user_id
+            ]
+        );
+
         session_regenerate_id();
 
-        $_SESSION['user'] = $this->db->id();
+        $_SESSION['user'] = $user_id;
     }
 
     public function login(array $formData): void
