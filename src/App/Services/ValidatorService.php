@@ -29,7 +29,6 @@ class ValidatorService
         $this->validator->add('email', new EmailRule());
         $this->validator->add('min', new MinRule());
         $this->validator->add('in', new InRule());
-        $this->validator->add('url', new UrlRule());
         $this->validator->add('match', new MatchRule());
         $this->validator->add('lengthMax', new LengthMaxRule());
         $this->validator->add('numeric', new NumericRule());
@@ -39,13 +38,10 @@ class ValidatorService
     public function validateRegister(array $formData)
     {
         $this->validator->validate($formData, [
+            'name' => ['required', 'lengthMax:50'],
             'email' => ['required', 'email'],
-            'age' => ['required', 'min:18'],
-            'country' => ['required', 'in:USA,Canada,Mexico'],
-            'socialMediaURL' => ['required', 'url'],
             'password' => ['required'],
-            'confirmPassword' => ['required', 'match:password'],
-            'tos' => ['required']
+            'confirmPassword' => ['required', 'match:password']
         ]);
     }
 
