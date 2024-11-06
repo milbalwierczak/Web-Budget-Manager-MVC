@@ -14,7 +14,8 @@ use Framework\Rules\{
     MatchRule,
     LengthMaxRule,
     NumericRule,
-    DateFormatRule
+    DateFormatRule,
+    RecaptchaRule
 };
 
 class ValidatorService
@@ -33,6 +34,7 @@ class ValidatorService
         $this->validator->add('lengthMax', new LengthMaxRule());
         $this->validator->add('numeric', new NumericRule());
         $this->validator->add('dateFormat', new DateFormatRule());
+        $this->validator->add('recaptcha', new RecaptchaRule());
     }
 
     public function validateRegister(array $formData)
@@ -41,7 +43,8 @@ class ValidatorService
             'name' => ['required', 'lengthMax:50'],
             'email' => ['required', 'email'],
             'password' => ['required'],
-            'confirmPassword' => ['required', 'match:password']
+            'confirmPassword' => ['required', 'match:password'],
+            'g-recaptcha-response' => ['recaptcha']
         ]);
     }
 

@@ -58,12 +58,12 @@
 
 
                     <div class="text-xs-center">
-                        <div class="g-recaptcha mt-3" data-sitekey="6LdYDTwqAAAAAAt5nfwM4ZmfYdkWr6oIjNgCe7M4"></div>
+                        <div class="g-recaptcha mt-3" data-sitekey="6LfyKXcqAAAAAMjSemEz8nV1279FzBirGHwgwRTk"></div>
                     </div>
 
-                    <?php if (array_key_exists('bot', $errors)) : ?>
+                    <?php if (array_key_exists('g-recaptcha-response', $errors)) : ?>
                         <div class="error">
-                            <?php echo e($errors['bot'][0]); ?>
+                            <?php echo e($errors['g-recaptcha-response'][0]); ?>
                         </div>
                     <?php endif; ?>
 
