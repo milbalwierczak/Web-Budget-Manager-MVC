@@ -20,7 +20,11 @@ class TransactionController
 
     public function expenseView()
     {
-        echo $this->view->render("transactions/expense.php");
+        $categories = $this->transactionService->getExpenseCategories();
+
+        echo $this->view->render("transactions/expense.php", [
+            'categories' => $categories
+        ]);
     }
 
     public function incomeView()

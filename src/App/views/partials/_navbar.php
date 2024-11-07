@@ -31,7 +31,7 @@
                     <?php if (isset($_SESSION['user'])) : ?>
                         <li class="nav-item"><a class="nav-link" href="./home.php"><i class="bi bi-house"></i> Strona główna</a></li>
                         <li class="nav-item"><a class="nav-link" href="./income.php">+ Dodaj przychód</a></li>
-                        <li class="nav-item"><a class="nav-link" href="./expense.php">- Dodaj wydatek</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/expense">- Dodaj wydatek</a></li>
                         <li class="nav-item"><a class="nav-link" href="./balance.php"><i class="bi bi-graph-up"></i> Przeglądaj bilans</a></li>
                         <li class="nav-item"><a class="nav-link" href="/logout"><i class="bi bi-box-arrow-right"></i> Wyloguj się</a></li>
                     <?php else : ?>
