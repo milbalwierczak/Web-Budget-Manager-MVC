@@ -10,21 +10,111 @@ class TransactionService
 {
     public function __construct(private Database $db) {}
 
-    public function create(array $formData)
+    public function createIncome(array $formData)
     {
-        $formattedDate = "{$formData['date']} 00:00:00";
+        $formattedDate = \DateTime::createFromFormat('d-m-Y', $formData['date'])->format('Y-m-d');
+        $categoryId = $this->getIncomeCategoryId($formData['category']);
 
         $this->db->query(
-            "INSERT INTO transactions (user_id, description, amount, date)
-            VALUES(:user_id, :description, :amount, :date)",
+            "INSERT INTO incomes VALUES (NULL, :user_id, :category_id, :value, :date, :description)",
             [
                 'user_id' => $_SESSION['user'],
-                'description' => $formData['description'],
-                'amount' => $formData['amount'],
-                'date' => $formattedDate
+                'category_id' => $categoryId,
+                'value' => $formData['value'],
+                'date' => $formattedDate,
+                'description' => $formData['description']
             ]
         );
     }
+
+    public function createExpense(array $formData)
+    {
+        $formattedDate = \DateTime::createFromFormat('d-m-Y', $formData['date'])->format('Y-m-d');
+        $categoryId = $this->getExpenseCategoryId($formData['category']);
+        $paymentMethodId = $this->getPaymentMethodId($formData['method']);
+
+        $this->db->query(
+            "INSERT INTO expenses VALUES (NULL, :user_id, :category_id, :method_id, :value, :date, :description)",
+            [
+                'user_id' => $_SESSION['user'],
+                'category_id' => $categoryId,
+                'method_id' => $paymentMethodId,
+                'value' => $formData['value'],
+                'date' => $formattedDate,
+                'description' => $formData['description']
+            ]
+        );
+    }
+
+    public function getExpenseCategoryId(string $category)
+    {
+        $id = $this->db->query("SELECT id FROM expenses_category_assigned_to_users 
+            WHERE user_id = :user_id AND name = :category_name", [
+            'user_id' => $_SESSION['user'],
+            'category_name' => $category
+        ])->count();
+
+        return $id;
+    }
+
+    public function getIncomeCategoryId(string $category)
+    {
+        $id = $this->db->query("SELECT id FROM incomes_category_assigned_to_users 
+        WHERE user_id = :user_id AND name = :category_name", [
+            'user_id' => $_SESSION['user'],
+            'category_name' => $category
+        ])->count();
+
+        return $id;
+    }
+
+    public function getPaymentMethodId(string $method)
+    {
+        $id = $this->db->query("SELECT id FROM payment_methods_assigned_to_users
+            WHERE user_id = :user_id AND name = :method_name", [
+            'user_id' => $_SESSION['user'],
+            'method_name' => $method
+        ])->count();
+
+        return $id;
+    }
+
+    public function getExpenseCategories()
+    {
+        $categories = $this->db->query(
+            "SELECT name FROM expenses_category_assigned_to_users WHERE user_id = :user_id",
+            [
+                'user_id' => $_SESSION['user']
+            ]
+        )->findAll();
+
+        return $categories;
+    }
+
+    public function getIncomeCategories()
+    {
+        $categories = $this->db->query(
+            "SELECT name FROM incomes_category_assigned_to_users WHERE user_id = :user_id",
+            [
+                'user_id' => $_SESSION['user']
+            ]
+        )->findAll();
+
+        return $categories;
+    }
+
+    public function getPaymentMethods()
+    {
+        $methods = $this->db->query(
+            "SELECT name FROM payment_methods_assigned_to_users WHERE user_id = :user_id",
+            [
+                'user_id' => $_SESSION['user']
+            ]
+        )->findAll();
+
+        return $methods;
+    }
+
 
     public function getUserTransactions(int $length, int $offset)
     {
@@ -93,53 +183,5 @@ class TransactionService
         $balance = $income - $expense;
 
         return $balance;
-    }
-
-    public function getUserTransaction(string $id)
-    {
-        return $this->db->query(
-            "SELECT *, DATE_FORMAT(date, '%Y-%m-%d') as formatted_date
-            FROM transactions
-            WHERE id = :id AND user_id = :user_id",
-            [
-                'id' => $id,
-                'user_id' => $_SESSION['user']
-            ]
-        )->find();
-    }
-
-    public function update(array $formData, int $id)
-    {
-        $formattedDate = "{$formData['date']} 00:00:00";
-
-        $this->db->query(
-            "UPDATE transactions
-            SET description = :description,
-            amount = :amount,
-            date = :date
-            WHERE id = :id
-            AND user_id = :user_id",
-            [
-                'description' => $formData['description'],
-                'amount' => $formData['amount'],
-                'date' => $formattedDate,
-                'id' => $id,
-                'user_id' => $_SESSION['user']
-            ]
-        );
-    }
-
-
-    public function delete(int $id)
-    {
-        $this->db->query(
-            "DELETE FROM transactions
-            WHERE id = :id
-            AND user_id = :user_id",
-            [
-                'id' => $id,
-                'user_id' => $_SESSION['user']
-            ]
-        );
     }
 }

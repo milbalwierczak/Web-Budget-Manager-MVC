@@ -56,12 +56,24 @@ class ValidatorService
         ]);
     }
 
-    public function validateTransaction(array $formData)
+    public function validateExpense(array $formData)
     {
         $this->validator->validate($formData, [
-            'description' => ['required', 'lengthMax:255'],
-            'amount' => ['required', 'numeric'],
-            'date' => ['required', 'dateFormat:Y-m-d']
+            'value' => ['required', 'numeric'],
+            'date' => ['required', 'dateFormat:d-m-Y'],
+            'category' => ['required'],
+            'method' => ['required'],
+            'description' => ['lengthMax:255']
+        ]);
+    }
+
+    public function validateIncome(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'value' => ['required', 'numeric'],
+            'date' => ['required', 'dateFormat:d-m-Y'],
+            'category' => ['required'],
+            'description' => ['lengthMax:255']
         ]);
     }
 }
