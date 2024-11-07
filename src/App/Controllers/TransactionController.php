@@ -38,6 +38,29 @@ class TransactionController
         ]);
     }
 
+    public function balanceView()
+    {
+        $balance = $this->transactionService->getUserBalance();
+        $incomes = $this->transactionService->getUserIncomes();
+        $expenses = $this->transactionService->getUserExpenses();
+        [$expenses_labels, $expenses_data] = $this->transactionService->getUserExpensesCategorized();
+        [$incomes_labels, $incomes_data] = $this->transactionService->getUserIncomesCategorized();
+        $start_date = date('Y-m-01');
+        $end_date = date('Y-m-t');
+
+        echo $this->view->render("balance.php", [
+            'balance' => $balance,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'incomes' => $incomes,
+            'expenses' => $expenses,
+            'expenses_labels' => $expenses_labels,
+            'expenses_data' => $expenses_data,
+            'incomes_labels' => $incomes_labels,
+            'incomes_data' => $incomes_data
+        ]);
+    }
+
     public function createExpense()
     {
         $this->validatorService->validateExpense($_POST);
