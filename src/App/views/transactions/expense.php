@@ -33,15 +33,14 @@
                     <?php endif; ?>
 
                     <div class="form-floating mt-3">
-                        <select class="form-select <?php echo isset($_SESSION['fr_category']) ? 'has-value' : ''; ?>" id="floatingCategory" name="category">
+                        <select class="form-select <?php echo isset($oldFormData['category']) ? 'has-value' : ''; ?>" id="floatingCategory" name="category">
                             <option hidden disabled selected value></option>
                             <?php foreach ($categories as $category):
                                 $selected = '';
-                                if (isset($_SESSION['fr_category']) && $_SESSION['fr_category'] == $category['name']) {
+                                if (isset($oldFormData['category']) && $oldFormData['category'] == $category['name']) {
                                     $selected = 'selected';
-                                    unset($_SESSION['fr_category']);
                                 }
-                                echo '<option value="' . htmlspecialchars($category['name']) . '" ' . $selected . '>' . htmlspecialchars($category['name']) . '</option>';
+                                echo '<option value="' . e($category['name']) . '" ' . $selected . '>' . e($category['name']) . '</option>';
                             endforeach; ?>
                         </select>
                         <label for="floatingCategory"><i class="bi bi-tag"></i> Kategoria</label>
@@ -54,15 +53,14 @@
                     <?php endif; ?>
 
                     <div class="form-floating mt-3">
-                        <select class="form-select <?php echo isset($_SESSION['fr_method']) ? 'has-value' : ''; ?>" id="floatingMethod" name="method">
+                        <select class="form-select <?php echo isset($oldFormData['method']) ? 'has-value' : ''; ?>" id="floatingMethod" name="method">
                             <option hidden disabled selected value></option>
                             <?php foreach ($methods as $method):
                                 $selected = '';
-                                if (isset($_SESSION['fr_method']) && $_SESSION['fr_method'] == $method['name']) {
+                                if (isset($oldFormData['method']) && $oldFormData['method'] == $method['name']) {
                                     $selected = 'selected';
-                                    unset($_SESSION['fr_method']);
                                 }
-                                echo '<option value="' . htmlspecialchars($method['name']) . '" ' . $selected . '>' . htmlspecialchars($method['name']) . '</option>';
+                                echo '<option value="' . e($method['name']) . '" ' . $selected . '>' . e($method['name']) . '</option>';
                             endforeach; ?>
                         </select>
                         <label for="floatingMethod"><i class="bi bi-credit-card"></i> Metoda płatności</label>

@@ -21,9 +21,11 @@ class TransactionController
     public function expenseView()
     {
         $categories = $this->transactionService->getExpenseCategories();
+        $methods = $this->transactionService->getPaymentMethods();
 
         echo $this->view->render("transactions/expense.php", [
-            'categories' => $categories
+            'categories' => $categories,
+            'methods' => $methods
         ]);
     }
 
@@ -38,7 +40,9 @@ class TransactionController
 
         $this->transactionService->createExpense($_POST);
 
-        redirectTo('/');
+        $_SESSION['expense_added'] = true;
+
+        redirectTo('/expense');
     }
 
 
