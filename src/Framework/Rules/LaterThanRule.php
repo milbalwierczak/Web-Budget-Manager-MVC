@@ -6,15 +6,18 @@ namespace Framework\Rules;
 
 use Framework\Contracts\RuleInterface;
 
-class EmailRule implements RuleInterface
+class LaterThanRule implements RuleInterface
 {
     public function validate(array $data, string $field, array $params): bool
     {
-        return (bool) filter_var($data[$field], FILTER_VALIDATE_EMAIL);
+        $fieldOne = \DateTime::createFromFormat('d-m-Y', $data[$field]);;
+        $fieldTwo = \DateTime::createFromFormat('d-m-Y', $data[$params[0]]);
+
+        return $fieldOne > $fieldTwo;
     }
 
     public function getMessage(array $data, string $field, array $params): string
     {
-        return "Niepoprawny adres email";
+        return 'Wprowadź prawidłowy zakres dat';
     }
 }

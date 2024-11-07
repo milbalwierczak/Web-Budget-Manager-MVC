@@ -22,7 +22,6 @@ function registerRoutes(App $app)
 {
     $app->get('/', [HomeController::class, 'home'])->add(AuthRequiredMiddleware::class);
     $app->get('/index', [AuthController::class, 'indexView'])->add(GuestOnlyMiddleware::class);
-    $app->get('/about', [AboutController::class, 'about']);
     $app->get('/register', [AuthController::class, 'registerView'])->add(GuestOnlyMiddleware::class);
     $app->post('/register', [AuthController::class, 'register'])->add(GuestOnlyMiddleware::class);
     $app->get('/login', [AuthController::class, 'loginView'])->add(GuestOnlyMiddleware::class);
@@ -32,6 +31,8 @@ function registerRoutes(App $app)
     $app->post('/expense', [TransactionController::class, 'createExpense'])->add(AuthRequiredMiddleware::class);
     $app->get('/income', [TransactionController::class, 'incomeView'])->add(AuthRequiredMiddleware::class);
     $app->post('/income', [TransactionController::class, 'createIncome'])->add(AuthRequiredMiddleware::class);
+    $app->get('/balance', [TransactionController::class, 'balanceView'])->add(AuthRequiredMiddleware::class);
+    $app->post('/balance', [TransactionController::class, 'customBalance'])->add(AuthRequiredMiddleware::class);
 
     $app->setErrorHandler([ErrorController::class, 'notFound']);
 }

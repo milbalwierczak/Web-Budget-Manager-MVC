@@ -26,6 +26,26 @@
         todayHighlight: true
     });
 </script>
+
+<script>
+    $('#floatingDateStart').datepicker({
+        format: "dd-mm-yyyy",
+        maxViewMode: 0,
+        language: "pl",
+        todayHighlight: true,
+        autoclose: true
+    });
+
+    $('#floatingDateEnd').datepicker({
+        format: "dd-mm-yyyy",
+        maxViewMode: 0,
+        language: "pl",
+        todayHighlight: true,
+        autoclose: true
+    });
+</script>
+
+
 </body>
 
 </html>

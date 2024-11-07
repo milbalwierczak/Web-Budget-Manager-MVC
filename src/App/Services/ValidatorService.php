@@ -15,7 +15,9 @@ use Framework\Rules\{
     LengthMaxRule,
     NumericRule,
     DateFormatRule,
-    RecaptchaRule
+    RecaptchaRule,
+    LaterThanRule,
+    PositiveNumberRule
 };
 
 class ValidatorService
@@ -35,6 +37,8 @@ class ValidatorService
         $this->validator->add('numeric', new NumericRule());
         $this->validator->add('dateFormat', new DateFormatRule());
         $this->validator->add('recaptcha', new RecaptchaRule());
+        $this->validator->add('laterThan', new LaterThanRule());
+        $this->validator->add('positive', new PositiveNumberRule());
     }
 
     public function validateRegister(array $formData)
@@ -59,7 +63,7 @@ class ValidatorService
     public function validateExpense(array $formData)
     {
         $this->validator->validate($formData, [
-            'value' => ['required', 'numeric'],
+            'value' => ['required', 'numeric', 'positive'],
             'date' => ['required', 'dateFormat:d-m-Y'],
             'category' => ['required'],
             'method' => ['required'],
@@ -70,10 +74,18 @@ class ValidatorService
     public function validateIncome(array $formData)
     {
         $this->validator->validate($formData, [
-            'value' => ['required', 'numeric'],
+            'value' => ['required', 'numeric', 'positive'],
             'date' => ['required', 'dateFormat:d-m-Y'],
             'category' => ['required'],
             'description' => ['lengthMax:255']
+        ]);
+    }
+
+    public function validateBalance(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'dateStart' => ['required', 'dateFormat:d-m-Y'],
+            'dateEnd' => ['required', 'dateFormat:d-m-Y', 'laterThan:dateStart']
         ]);
     }
 }

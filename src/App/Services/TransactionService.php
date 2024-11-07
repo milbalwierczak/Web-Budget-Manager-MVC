@@ -153,11 +153,8 @@ class TransactionService
         return [$transactions, $transactionCount];
     }
 
-    public function getUserBalance(string $start_date = null, $end_date = null)
+    public function getUserBalance(string $start_date, string $end_date)
     {
-        $start_date = $start_date ?? date('Y-m-01');
-        $end_date = $end_date ?? date('Y-m-t');
-
         $expense = $this->db->query(
             "SELECT SUM(amount)
             FROM expenses
@@ -183,5 +180,85 @@ class TransactionService
         $balance = $income - $expense;
 
         return $balance;
+    }
+
+    public function getUserIncomes(string $start_date, string $end_date)
+    {
+        $incomes = $this->db->query(
+            "SELECT i.id, i.amount, i.date_of_income, c.name FROM incomes AS i, 
+      incomes_category_assigned_to_users AS c WHERE i.income_category_assigned_to_user_id = c.id 
+      AND i.user_id = :user_id AND i.date_of_income BETWEEN :start_date AND :end_date  ORDER BY i.date_of_income ASC",
+            [
+                'user_id' => $_SESSION['user'],
+                'start_date' => $start_date,
+                'end_date' => $end_date
+            ]
+        )->findAll();
+
+        return $incomes;
+    }
+
+    public function getUserExpenses(string $start_date, string $end_date)
+    {
+        $expenses = $this->db->query(
+            "SELECT e.id, e.amount, e.date_of_expense, c.name FROM expenses AS e, 
+      expenses_category_assigned_to_users AS c WHERE e.expense_category_assigned_to_user_id = c.id 
+      AND e.user_id = :user_id AND e.date_of_expense BETWEEN :start_date AND :end_date ORDER BY e.date_of_expense ASC",
+            [
+                'user_id' => $_SESSION['user'],
+                'start_date' => $start_date,
+                'end_date' => $end_date
+            ]
+        )->findAll();
+
+        return $expenses;
+    }
+
+    public function getUserExpensesCategorized(string $start_date, string $end_date)
+    {
+        $expenses_categories = $this->db->query(
+            "SELECT SUM(e.amount) AS total_amount, c.name FROM expenses AS e, 
+      expenses_category_assigned_to_users AS c WHERE e.expense_category_assigned_to_user_id = c.id 
+      AND e.user_id = :user_id AND e.date_of_expense BETWEEN :start_date AND :end_date GROUP BY c.name ORDER BY total_amount DESC",
+            [
+                'user_id' => $_SESSION['user'],
+                'start_date' => $start_date,
+                'end_date' => $end_date
+            ]
+        )->findAll();
+
+        $expenses_labels = [];
+        $expenses_data = [];
+
+        foreach ($expenses_categories as $category) {
+            $expenses_labels[] = htmlspecialchars($category['name']);
+            $expenses_data[] = htmlspecialchars($category['total_amount']);
+        }
+
+        return [$expenses_labels,  $expenses_data];
+    }
+
+    public function getUserIncomesCategorized(string $start_date, string $end_date)
+    {
+        $incomes_categories = $this->db->query(
+            "SELECT SUM(i.amount) AS total_amount, c.name FROM incomes AS i, 
+      incomes_category_assigned_to_users AS c WHERE i.income_category_assigned_to_user_id = c.id 
+      AND i.user_id = :user_id AND i.date_of_income BETWEEN :start_date AND :end_date GROUP BY c.name ORDER BY total_amount DESC",
+            [
+                'user_id' => $_SESSION['user'],
+                'start_date' => $start_date,
+                'end_date' => $end_date
+            ]
+        )->findAll();
+
+        $incomes_labels = [];
+        $incomes_data = [];
+
+        foreach ($incomes_categories as $category) {
+            $incomes_labels[] = htmlspecialchars($category['name']);
+            $incomes_data[] = htmlspecialchars($category['total_amount']);
+        }
+
+        return [$incomes_labels,  $incomes_data];
     }
 }

@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <title>Budget Manager</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/income.png">
+    <link rel="icon" type="image/x-icon" href="assets/img/income.ico">
     <!-- Bootstrap Icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Google fonts-->
@@ -29,10 +29,10 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
                     <?php if (isset($_SESSION['user'])) : ?>
-                        <li class="nav-item"><a class="nav-link" href="./home.php"><i class="bi bi-house"></i> Strona główna</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house"></i> Strona główna</a></li>
                         <li class="nav-item"><a class="nav-link" href="/income">+ Dodaj przychód</a></li>
                         <li class="nav-item"><a class="nav-link" href="/expense">- Dodaj wydatek</a></li>
-                        <li class="nav-item"><a class="nav-link" href="./balance.php"><i class="bi bi-graph-up"></i> Przeglądaj bilans</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/balance"><i class="bi bi-graph-up"></i> Przeglądaj bilans</a></li>
                         <li class="nav-item"><a class="nav-link" href="/logout"><i class="bi bi-box-arrow-right"></i> Wyloguj się</a></li>
                     <?php else : ?>
                         <li class="nav-item"><a class="nav-link" href="/register"><i class="bi bi-person-plus"></i> Zarejestruj się</a></li>

@@ -91,7 +91,7 @@ class UserService
         );
 
         if (!$user || !$passwordMatch) {
-            throw new ValidationException(['password' => ['Invalid credentials']]);
+            throw new ValidationException(['password' => ['Niepoprawny login lub hasło']]);
         }
 
         session_regenerate_id();

@@ -38,6 +38,48 @@ class TransactionController
         ]);
     }
 
+    public function balanceView()
+    {
+        $start_date = $_SESSION['start_date'] ?? date('Y-m-01');
+        $end_date = $_SESSION['end_date'] ?? date('Y-m-t');
+
+        if (isset($_SESSION['start_date'])) {
+            unset($_SESSION['start_date']);
+        }
+
+        if (isset($_SESSION['end_date'])) {
+            unset($_SESSION['end_date']);
+        }
+
+        $balance = $this->transactionService->getUserBalance($start_date, $end_date);
+        $incomes = $this->transactionService->getUserIncomes($start_date, $end_date);
+        $expenses = $this->transactionService->getUserExpenses($start_date, $end_date);
+        [$expenses_labels, $expenses_data] = $this->transactionService->getUserExpensesCategorized($start_date, $end_date);
+        [$incomes_labels, $incomes_data] = $this->transactionService->getUserIncomesCategorized($start_date, $end_date);
+
+        echo $this->view->render("balance.php", [
+            'balance' => $balance,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'incomes' => $incomes,
+            'expenses' => $expenses,
+            'expenses_labels' => $expenses_labels,
+            'expenses_data' => $expenses_data,
+            'incomes_labels' => $incomes_labels,
+            'incomes_data' => $incomes_data
+        ]);
+    }
+
+    public function customBalance()
+    {
+        $this->validatorService->validateBalance($_POST);
+
+        $_SESSION['start_date']  = \DateTime::createFromFormat('d-m-Y', $_POST['dateStart'])->format('Y-m-d');
+        $_SESSION['end_date'] =  \DateTime::createFromFormat('d-m-Y', $_POST['dateEnd'])->format('Y-m-d');
+
+        redirectTo('/balance');
+    }
+
     public function createExpense()
     {
         $this->validatorService->validateExpense($_POST);
