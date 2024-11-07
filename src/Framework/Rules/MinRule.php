@@ -22,6 +22,6 @@ class MinRule implements RuleInterface
 
     public function getMessage(array $data, string $field, array $params): string
     {
-        return "Must be at least {$params[0]}";
+        return "Minimalna długość {$params[0]} znaków";
     }
 }

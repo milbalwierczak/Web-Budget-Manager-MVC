@@ -32,6 +32,7 @@ function registerRoutes(App $app)
     $app->get('/income', [TransactionController::class, 'incomeView'])->add(AuthRequiredMiddleware::class);
     $app->post('/income', [TransactionController::class, 'createIncome'])->add(AuthRequiredMiddleware::class);
     $app->get('/balance', [TransactionController::class, 'balanceView'])->add(AuthRequiredMiddleware::class);
+    $app->post('/balance', [TransactionController::class, 'customBalance'])->add(AuthRequiredMiddleware::class);
 
     $app->setErrorHandler([ErrorController::class, 'notFound']);
 }

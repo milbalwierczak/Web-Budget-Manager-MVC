@@ -6,15 +6,15 @@ namespace Framework\Rules;
 
 use Framework\Contracts\RuleInterface;
 
-class EmailRule implements RuleInterface
+class PositiveNumberRule implements RuleInterface
 {
     public function validate(array $data, string $field, array $params): bool
     {
-        return (bool) filter_var($data[$field], FILTER_VALIDATE_EMAIL);
+        return $data[$field] > 0;
     }
 
     public function getMessage(array $data, string $field, array $params): string
     {
-        return "Niepoprawny adres email";
+        return "Wprowadź liczbę większą od 0";
     }
 }

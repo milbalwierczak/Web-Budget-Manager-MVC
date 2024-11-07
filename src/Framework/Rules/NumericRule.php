@@ -13,6 +13,6 @@ class NumericRule implements RuleInterface
 
     public function getMessage(array $data, string $field, array $params): string
     {
-        return "Only numbers allowed";
+        return "Wprowadź liczbę";
     }
 }

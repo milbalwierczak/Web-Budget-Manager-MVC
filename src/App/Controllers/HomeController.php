@@ -18,7 +18,10 @@ class HomeController
 
     public function home()
     {
-        $balance = $this->transactionService->getUserBalance();
+        $start_date = date('Y-m-01');
+        $end_date = date('Y-m-t');
+
+        $balance = $this->transactionService->getUserBalance($start_date, $end_date);
 
         $username = $this->userService->getUserName();
 

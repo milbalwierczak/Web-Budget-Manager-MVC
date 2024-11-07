@@ -153,11 +153,8 @@ class TransactionService
         return [$transactions, $transactionCount];
     }
 
-    public function getUserBalance(string $start_date = null, $end_date = null)
+    public function getUserBalance(string $start_date, string $end_date)
     {
-        $start_date = $start_date ?? date('Y-m-01');
-        $end_date = $end_date ?? date('Y-m-t');
-
         $expense = $this->db->query(
             "SELECT SUM(amount)
             FROM expenses
@@ -185,11 +182,8 @@ class TransactionService
         return $balance;
     }
 
-    public function getUserIncomes(string $start_date = null, $end_date = null)
+    public function getUserIncomes(string $start_date, string $end_date)
     {
-        $start_date = $start_date ?? date('Y-m-01');
-        $end_date = $end_date ?? date('Y-m-t');
-
         $incomes = $this->db->query(
             "SELECT i.id, i.amount, i.date_of_income, c.name FROM incomes AS i, 
       incomes_category_assigned_to_users AS c WHERE i.income_category_assigned_to_user_id = c.id 
@@ -204,11 +198,8 @@ class TransactionService
         return $incomes;
     }
 
-    public function getUserExpenses(string $start_date = null, $end_date = null)
+    public function getUserExpenses(string $start_date, string $end_date)
     {
-        $start_date = $start_date ?? date('Y-m-01');
-        $end_date = $end_date ?? date('Y-m-t');
-
         $expenses = $this->db->query(
             "SELECT e.id, e.amount, e.date_of_expense, c.name FROM expenses AS e, 
       expenses_category_assigned_to_users AS c WHERE e.expense_category_assigned_to_user_id = c.id 
@@ -223,11 +214,8 @@ class TransactionService
         return $expenses;
     }
 
-    public function getUserExpensesCategorized(string $start_date = null, $end_date = null)
+    public function getUserExpensesCategorized(string $start_date, string $end_date)
     {
-        $start_date = $start_date ?? date('Y-m-01');
-        $end_date = $end_date ?? date('Y-m-t');
-
         $expenses_categories = $this->db->query(
             "SELECT SUM(e.amount) AS total_amount, c.name FROM expenses AS e, 
       expenses_category_assigned_to_users AS c WHERE e.expense_category_assigned_to_user_id = c.id 
@@ -239,6 +227,8 @@ class TransactionService
             ]
         )->findAll();
 
+        $expenses_labels = [];
+        $expenses_data = [];
 
         foreach ($expenses_categories as $category) {
             $expenses_labels[] = htmlspecialchars($category['name']);
@@ -248,11 +238,8 @@ class TransactionService
         return [$expenses_labels,  $expenses_data];
     }
 
-    public function getUserIncomesCategorized(string $start_date = null, $end_date = null)
+    public function getUserIncomesCategorized(string $start_date, string $end_date)
     {
-        $start_date = $start_date ?? date('Y-m-01');
-        $end_date = $end_date ?? date('Y-m-t');
-
         $incomes_categories = $this->db->query(
             "SELECT SUM(i.amount) AS total_amount, c.name FROM incomes AS i, 
       incomes_category_assigned_to_users AS c WHERE i.income_category_assigned_to_user_id = c.id 
@@ -264,6 +251,8 @@ class TransactionService
             ]
         )->findAll();
 
+        $incomes_labels = [];
+        $incomes_data = [];
 
         foreach ($incomes_categories as $category) {
             $incomes_labels[] = htmlspecialchars($category['name']);

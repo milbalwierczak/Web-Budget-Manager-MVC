@@ -24,42 +24,32 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form method="post">
+                            <?php include $this->resolve('partials/_csrf.php'); ?>
                             <div class="modal-body">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="floatingDateStart" placeholder=""
-                                        <?php
-                                        if (isset($_SESSION['fr_dateStart'])) {
-                                            echo 'value="' . $_SESSION['fr_dateStart'] . '"';
-                                            unset($_SESSION['fr_dateStart']);
-                                        }
-                                        ?> autocomplete="off" name="dateStart">
+                                        value="<?php echo e(date('d-m-Y', strtotime($start_date))) ?>"
+                                        autocomplete="off" name="dateStart">
                                     <label for="floatingDateStart"><i class="bi bi-calendar3"></i> Data od</label>
                                 </div>
 
-                                <?php
-                                if (isset($_SESSION['e_dateStart'])) {
-                                    echo '<div class="error">' . $_SESSION['e_dateStart'] . '</div>';
-                                    unset($_SESSION['e_dateStart']);
-                                }
-                                ?>
+                                <?php if (array_key_exists('dateStart', $errors)) : ?>
+                                    <div class="error">
+                                        <?php echo e($errors['dateStart'][0]); ?>
+                                    </div>
+                                <?php endif; ?>
 
                                 <div class="form-floating mt-3">
                                     <input type="text" class="form-control" id="floatingDateEnd" placeholder=""
-                                        <?php
-                                        if (isset($_SESSION['fr_dateEnd'])) {
-                                            echo 'value="' . $_SESSION['fr_dateEnd'] . '"';
-                                            unset($_SESSION['fr_dateEnd']);
-                                        }
-                                        ?> autocomplete="off" name="dateEnd">
+                                        value="<?php echo e(date('d-m-Y', strtotime($end_date))) ?>" autocomplete="off" name="dateEnd">
                                     <label for="floatingDateEnd"><i class="bi bi-calendar3"></i> Data do</label>
                                 </div>
 
-                                <?php
-                                if (isset($_SESSION['e_dateEnd'])) {
-                                    echo '<div class="error">' . $_SESSION['e_dateEnd'] . '</div>';
-                                    unset($_SESSION['e_dateEnd']);
-                                }
-                                ?>
+                                <?php if (array_key_exists('dateEnd', $errors)) : ?>
+                                    <div class="error">
+                                        <?php echo e($errors['dateEnd'][0]); ?>
+                                    </div>
+                                <?php endif; ?>
 
                             </div>
                             <div class="modal-footer">
@@ -70,6 +60,14 @@
                     </div>
                 </div>
             </div>
+
+            <script>
+                $(document).ready(function() {
+                    <?php if (array_key_exists('dateStart', $errors) || array_key_exists('dateEnd', $errors)): ?>
+                        $('#exampleModalCenter').modal('show');
+                    <?php endif; ?>
+                });
+            </script>
 
             <div class="row gx-4 gx-lg-5 align-items-center justify-content-center text-center">
                 <div class="col-lg-6 align-self-baseline">
