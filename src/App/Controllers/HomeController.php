@@ -6,39 +6,29 @@ namespace App\Controllers;
 
 use Framework\TemplateEngine;
 use App\Config\Paths;
-use App\Services\TransactionService;
+use App\Services\{TransactionService, UserService};
 
 class HomeController
 {
     public function __construct(
         private TemplateEngine $view,
-        private TransactionService $transactionService
+        private TransactionService $transactionService,
+        private UserService $userService
     ) {}
 
     public function home()
     {
-        $page = $_GET['p'] ?? 1;
-        $page = (int) $page;
-        $length = 3;
-        $offset = ($page - 1) * $length;
-        $searchTerm = $_GET['s'] ?? null;
+        $balance = $this->transactionService->getUserBalance();
 
-        [$transactions, $count] = $this->transactionService->getUserTransactions(
-            $length,
-            $offset
-        );
+        $username = $this->userService->getUserName();
 
-        $lastPage = ceil($count / $length);
-        $pages = $lastPage ? range(1, $lastPage) : [];
+        [$quote, $author] = $this->userService->getDailyQuote();
 
-        $pageLinks = array_map(
-            fn($pageNum) => http_build_query([
-                'p' => $pageNum,
-                's' => $searchTerm
-            ]),
-            $pages
-        );
-
-        echo $this->view->render("/home.php");
+        echo $this->view->render("/home.php", [
+            'balance' => $balance,
+            'username' => $username,
+            'quote' => $quote,
+            'author' => $author,
+        ]);
     }
 }
