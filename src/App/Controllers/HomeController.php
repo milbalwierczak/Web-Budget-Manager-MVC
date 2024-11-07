@@ -22,9 +22,13 @@ class HomeController
 
         $username = $this->userService->getUserName();
 
+        [$quote, $author] = $this->userService->getDailyQuote();
+
         echo $this->view->render("/home.php", [
             'balance' => $balance,
-            'username' => $username
+            'username' => $username,
+            'quote' => $quote,
+            'author' => $author,
         ]);
     }
 }

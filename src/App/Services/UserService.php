@@ -99,6 +99,23 @@ class UserService
         $_SESSION['user'] = $user['id'];
     }
 
+    public function getDailyQuote()
+    {
+        $totalQuotes = $this->db->query("SELECT COUNT(*) FROM quotes")->count();
+
+        $today = date('Y-m-d');
+        srand(strtotime($today));
+        $randomId = rand(1, $totalQuotes);
+
+        $data = $this->db->query("SELECT quote, author FROM quotes WHERE id = :id", [
+            'id' => $randomId
+        ])->find();
+
+        extract($data);
+
+        return [$quote, $author];
+    }
+
     public function logout()
     {
         //unset($_SESSION['user']);

@@ -18,56 +18,31 @@ class TransactionController
         private TransactionService $transactionService
     ) {}
 
-    public function createView()
+    public function expenseView()
     {
-        echo $this->view->render("transactions/create.php");
+        echo $this->view->render("transactions/expense.php");
     }
 
-    public function create()
+    public function incomeView()
+    {
+        echo $this->view->render("transactions/income.php");
+    }
+
+    public function createExpense()
     {
         $this->validatorService->validateTransaction($_POST);
 
-        $this->transactionService->create($_POST);
+        $this->transactionService->createExpense($_POST);
 
         redirectTo('/');
     }
 
 
-    public function editView(array $params)
+    public function createIncome()
     {
-        $transaction = $this->transactionService->getUserTransaction(
-            $params['transaction']
-        );
-
-        if (!$transaction) {
-            redirectTo('/');
-        }
-
-        echo $this->view->render('transactions/edit.php', [
-            'transaction' => $transaction
-        ]);
-    }
-
-    public function edit(array $params)
-    {
-        $transaction = $this->transactionService->getUserTransaction(
-            $params['transaction']
-        );
-
-        if (!$transaction) {
-            redirectTo('/');
-        }
-
         $this->validatorService->validateTransaction($_POST);
 
-        $this->transactionService->update($_POST, $transaction['id']);
-
-        redirectTo($_SERVER['HTTP_REFERER']);
-    }
-
-    public function delete(array $params)
-    {
-        $this->transactionService->delete((int) $params['transaction']);
+        $this->transactionService->createIncome($_POST);
 
         redirectTo('/');
     }

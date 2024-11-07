@@ -12,6 +12,8 @@
                                                                             echo e(number_format($balance, 2, ',', '')) ?> zł </h2>
                 <hr class="divider">
                 <p class="text-white fs-2">Cytat na dzisiaj:</p>
+                <p class="text-start text-white-75 fst-italic fs-4"><?php echo e($quote); ?></p>
+                <p class="text-end text-white-75 mb-5"><?php echo e($author); ?></p>
                 <a class="btn btn-success btn-xl me-sm-4 mb-3 mb-sm-0" href="./income.php">+ Dodaj przychód</a>
                 <a class="btn btn-danger btn-xl me-sm-4 mb-3 mb-sm-0" href="./expense.php">- Dodaj wydatek</a>
                 <a class="btn btn-primary btn-xl mb-3 mb-sm-0" href="./balance.php"><i class="bi bi-graph-up"></i> Przeglądaj bilans</a>
