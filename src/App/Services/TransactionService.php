@@ -81,9 +81,20 @@ class TransactionService
 
     public function getExpenseCategories()
     {
-
         $categories = $this->db->query(
             "SELECT name FROM expenses_category_assigned_to_users WHERE user_id = :user_id",
+            [
+                'user_id' => $_SESSION['user']
+            ]
+        )->findAll();
+
+        return $categories;
+    }
+
+    public function getIncomeCategories()
+    {
+        $categories = $this->db->query(
+            "SELECT name FROM incomes_category_assigned_to_users WHERE user_id = :user_id",
             [
                 'user_id' => $_SESSION['user']
             ]

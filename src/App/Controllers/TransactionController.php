@@ -31,12 +31,16 @@ class TransactionController
 
     public function incomeView()
     {
-        echo $this->view->render("transactions/income.php");
+        $categories = $this->transactionService->getIncomeCategories();
+
+        echo $this->view->render("transactions/income.php", [
+            'categories' => $categories
+        ]);
     }
 
     public function createExpense()
     {
-        $this->validatorService->validateTransaction($_POST);
+        $this->validatorService->validateExpense($_POST);
 
         $this->transactionService->createExpense($_POST);
 
@@ -48,10 +52,12 @@ class TransactionController
 
     public function createIncome()
     {
-        $this->validatorService->validateTransaction($_POST);
+        $this->validatorService->validateIncome($_POST);
 
         $this->transactionService->createIncome($_POST);
 
-        redirectTo('/');
+        $_SESSION['income_added'] = true;
+
+        redirectTo('/income');
     }
 }
