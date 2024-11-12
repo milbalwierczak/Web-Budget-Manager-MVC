@@ -64,7 +64,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <input type="submit" value="Dodaj przychód" class="btn btn-primary btn-xl col-12 col-sm-6 py-3 my-3" />
+                    <input type="submit" value="Dodaj przychód" class="btn-xl btn btn-primary col-12 col-sm-6 col-md-8 py-3 my-3" />
 
                     <?php
                     if (isset($_SESSION['income_added'])) {
