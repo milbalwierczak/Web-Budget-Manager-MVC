@@ -84,7 +84,7 @@
                         </div>
                     <?php endif; ?>
 
-                    <input type="submit" value="Dodaj wydatek" class="btn btn-primary btn-xl col-12 col-sm-6 py-3 my-3" />
+                    <input type="submit" value="Dodaj wydatek" class="btn-xl btn btn-md-sm btn-primary col-12 col-sm-6 col-md-8 py-3 my-3" />
 
                     <?php
                     if (isset($_SESSION['expense_added'])) {
