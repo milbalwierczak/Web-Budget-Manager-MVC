@@ -10,9 +10,15 @@
                 ?>
             </div>
             <div class="col-lg-4 align-self-center">
-                <button type="button" class="btn btn-primary btn-xl mb-3 mb-sm-0" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                    Ustaw zakres dat
-                </button>
+                <div class="dropdown">
+                    <button class="btn btn-primary btn-xl mb-3 mb-sm-0"><i class="bi bi-calendar3"></i>Wybierz okres</button>
+                    <div class="dropdown-content">
+                        <a class="first" href="/balance">Bieżący miesiąc</a>
+                        <a href="/balancePreviousMonth">Poprzedni miesiąc</a>
+                        <a href="/balanceCurrentYear">Bieżący rok</a>
+                        <a class="last" href="#" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">Niestandardowy okres</a>
+                    </div>
+                </div>
             </div>
 
             <!-- Modal -->
@@ -23,6 +29,7 @@
                             <h5 class="modal-title" id="exampleModalCenterTitle">Ustaw zakres dat</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+
                         <form method="post">
                             <?php include $this->resolve('partials/_csrf.php'); ?>
                             <div class="modal-body">
@@ -30,7 +37,7 @@
                                     <input type="text" class="form-control" id="floatingDateStart" placeholder=""
                                         value="<?php echo e(date('d-m-Y', strtotime($start_date))) ?>"
                                         autocomplete="off" name="dateStart">
-                                    <label for="floatingDateStart"><i class="bi bi-calendar3"></i> Data od</label>
+                                    <label for="floatingDateStart"><i class="bi bi-calendar3"></i>Data od</label>
                                 </div>
 
                                 <?php if (array_key_exists('dateStart', $errors)) : ?>
@@ -42,7 +49,7 @@
                                 <div class="form-floating mt-3">
                                     <input type="text" class="form-control" id="floatingDateEnd" placeholder=""
                                         value="<?php echo e(date('d-m-Y', strtotime($end_date))) ?>" autocomplete="off" name="dateEnd">
-                                    <label for="floatingDateEnd"><i class="bi bi-calendar3"></i> Data do</label>
+                                    <label for="floatingDateEnd"><i class="bi bi-calendar3"></i>Data do</label>
                                 </div>
 
                                 <?php if (array_key_exists('dateEnd', $errors)) : ?>

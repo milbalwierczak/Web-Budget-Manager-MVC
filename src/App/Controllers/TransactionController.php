@@ -70,6 +70,22 @@ class TransactionController
         ]);
     }
 
+    public function balancePreviousMonth()
+    {
+        $_SESSION['start_date']  = date('Y-m-01', strtotime('first day of last month'));
+        $_SESSION['end_date'] = date('Y-m-t', strtotime('last day of last month'));
+
+        redirectTo('/balance');
+    }
+
+    public function balanceCurrentYear()
+    {
+        $_SESSION['start_date'] = date('Y-01-01');
+        $_SESSION['end_date'] = date('Y-12-31');
+
+        redirectTo('/balance');
+    }
+
     public function customBalance()
     {
         $this->validatorService->validateBalance($_POST);

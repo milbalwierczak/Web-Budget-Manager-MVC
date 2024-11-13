@@ -12,7 +12,7 @@
                         <input
                             value="<?php echo e($oldFormData['name'] ?? ''); ?>"
                             type="text" class="form-control" id="floatingName" placeholder="" name="name">
-                        <label for="floatingName"><i class="bi bi-person"></i> Imię</label>
+                        <label for="floatingName"><i class="bi bi-person"></i>Imię</label>
                     </div>
 
                     <?php if (array_key_exists('name', $errors)) : ?>
@@ -25,7 +25,7 @@
                     <div class="form-floating mt-3">
                         <input value="<?php echo e($oldFormData['email'] ?? ''); ?>"
                             type="email" class="form-control" id="floatingEmail" placeholder="" name="email">
-                        <label for="floatingEmail"><i class="bi bi-envelope"></i> Email</label>
+                        <label for="floatingEmail"><i class="bi bi-envelope"></i>Email</label>
                     </div>
 
                     <?php if (array_key_exists('email', $errors)) : ?>
@@ -36,7 +36,7 @@
 
                     <div class="form-floating mt-3">
                         <input type="password" class="form-control" id="floatingPassword" placeholder="" name="password">
-                        <label for="floatingPassword"><i class="bi bi-key"></i> Hasło</label>
+                        <label for="floatingPassword"><i class="bi bi-key"></i>Hasło</label>
                     </div>
 
                     <?php if (array_key_exists('password', $errors)) : ?>
@@ -47,7 +47,7 @@
 
                     <div class="form-floating mt-3">
                         <input type="password" class="form-control" id="floatingConfirmPassword" placeholder="" name="confirmPassword">
-                        <label for="floatingConfirmPassword"><i class="bi bi-key"></i> Powtórz Hasło</label>
+                        <label for="floatingConfirmPassword"><i class="bi bi-key"></i>Powtórz Hasło</label>
                     </div>
 
                     <?php if (array_key_exists('confirmPassword', $errors)) : ?>
