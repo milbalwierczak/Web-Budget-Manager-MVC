@@ -10,7 +10,7 @@
 
                     <div class="form-floating">
                         <input value="<?php echo e($oldFormData['email'] ?? ''); ?>" name="email" type="email" class="form-control" id="floatingInput" placeholder="">
-                        <label for="floatingInput"><i class="bi bi-envelope"></i> Email</label>
+                        <label for="floatingInput"><i class="bi bi-envelope"></i>Email</label>
                     </div>
 
                     <?php if (array_key_exists('email', $errors)) : ?>
@@ -21,7 +21,7 @@
 
                     <div class="form-floating mt-3">
                         <input type="password" class="form-control" id="floatingPassword" placeholder="" name="password">
-                        <label for="floatingPassword"><i class="bi bi-key"></i> Hasło</label>
+                        <label for="floatingPassword"><i class="bi bi-key"></i>Hasło</label>
                     </div>
 
                     <?php if (array_key_exists('password', $errors)) : ?>

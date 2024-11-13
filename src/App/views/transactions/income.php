@@ -11,7 +11,7 @@
                     <div class="form-floating">
                         <input value="<?php echo e($oldFormData['value'] ?? ''); ?>"
                             type="number" step=0.01 class="form-control" id="floatingValue" placeholder="" name="value">
-                        <label for="floatingValue"><i class="bi bi-currency-dollar"></i> Wartość</label>
+                        <label for="floatingValue"><i class="bi bi-currency-dollar"></i>Wartość</label>
                     </div>
 
                     <?php if (array_key_exists('value', $errors)) : ?>
@@ -23,7 +23,7 @@
                     <div class="form-floating mt-3">
                         <input value="<?php echo e($oldFormData['date'] ?? ''); ?>"
                             type="text" class="form-control" id="floatingDate" placeholder="" name="date" autocomplete="off">
-                        <label for="floatingDate"><i class="bi bi-calendar3"></i> Data</label>
+                        <label for="floatingDate"><i class="bi bi-calendar3"></i>Data</label>
                     </div>
 
                     <?php if (array_key_exists('date', $errors)) : ?>
@@ -43,7 +43,7 @@
                                 echo '<option value="' . e($category['name']) . '" ' . $selected . '>' . e($category['name']) . '</option>';
                             endforeach; ?>
                         </select>
-                        <label for="floatingCategory"><i class="bi bi-tag"></i> Kategoria</label>
+                        <label for="floatingCategory"><i class="bi bi-tag"></i>Kategoria</label>
                     </div>
 
                     <?php if (array_key_exists('category', $errors)) : ?>
@@ -55,7 +55,7 @@
                     <div class="form-floating mt-3">
                         <input value="<?php echo e($oldFormData['description'] ?? ''); ?>"
                             type="text" class="form-control" id="floatingDescription" placeholder="" name="description">
-                        <label for="floatingDescription"><i class="bi bi-pencil"></i> Opis (opcjonalnie)</label>
+                        <label for="floatingDescription"><i class="bi bi-pencil"></i>Opis (opcjonalnie)</label>
                     </div>
 
                     <?php if (array_key_exists('description', $errors)) : ?>
