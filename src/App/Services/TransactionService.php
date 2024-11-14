@@ -185,7 +185,7 @@ class TransactionService
     public function getUserIncomes(string $start_date, string $end_date)
     {
         $incomes = $this->db->query(
-            "SELECT i.id, i.amount, i.date_of_income, c.name FROM incomes AS i, 
+            "SELECT i.id, i.amount, i.date_of_income, c.name, i.income_comment FROM incomes AS i, 
       incomes_category_assigned_to_users AS c WHERE i.income_category_assigned_to_user_id = c.id 
       AND i.user_id = :user_id AND i.date_of_income BETWEEN :start_date AND :end_date  ORDER BY i.date_of_income ASC",
             [
@@ -201,8 +201,9 @@ class TransactionService
     public function getUserExpenses(string $start_date, string $end_date)
     {
         $expenses = $this->db->query(
-            "SELECT e.id, e.amount, e.date_of_expense, c.name FROM expenses AS e, 
-      expenses_category_assigned_to_users AS c WHERE e.expense_category_assigned_to_user_id = c.id 
+            "SELECT e.id, e.amount, e.date_of_expense, c.name AS category_name, e.expense_comment, p.name AS payment_method
+            FROM expenses AS e, expenses_category_assigned_to_users AS c, payment_methods_assigned_to_users AS p
+            WHERE e.expense_category_assigned_to_user_id = c.id AND e.payment_method_assigned_to_user_id = p.id
       AND e.user_id = :user_id AND e.date_of_expense BETWEEN :start_date AND :end_date ORDER BY e.date_of_expense ASC",
             [
                 'user_id' => $_SESSION['user'],

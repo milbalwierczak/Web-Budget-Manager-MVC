@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <!-- Modal -->
+            <!-- Modal data range-->
             <div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -68,6 +68,97 @@
                 </div>
             </div>
 
+            <!-- Modal income details-->
+
+            <?php foreach ($incomes as $index => $income): ?>
+                <div class="modal fade" id="modalIncomeDetails<?php echo $index + 1; ?>" tabindex="-1" aria-labelledby="modalDetailsTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalDetailsTitle">Szczegóły przychodu</h5>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="form-floating">
+                                    <p class="form-control" id="floatingValue"><?php echo e(number_format($income['amount'], 2, ',', '')); ?></p>
+                                    <label for="floatingValue"><i class="bi bi-currency-dollar"></i>Wartość [zł]</label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <p class="form-control" id="floatingValue"><?php echo e(date('d-m-Y', strtotime($income['date_of_income']))); ?></p>
+                                    <label for="floatingValue"><i class="bi bi-calendar3"></i>Data</label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <p class="form-control" id="floatingValue"><?php echo e($income['name']); ?></p>
+                                    <label for="floatingValue"><i class="bi bi-tag"></i>Kategoria</label>
+                                </div>
+
+                                <?php if (!empty($income['income_comment'])) : ?>
+                                    <div class="form-floating">
+                                        <p class="form-control form-description" id="floatingValue"><?php echo e($income['income_comment']); ?></p>
+                                        <label for="floatingValue"><i class="bi bi-pencil"></i>Opis</label>
+                                    </div>
+                                <?php endif; ?>
+
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
+            <!-- Modal expense details-->
+
+            <?php foreach ($expenses as $index => $expense): ?>
+                <div class="modal fade" id="modalExpenseDetails<?php echo $index + 1; ?>" tabindex="-1" aria-labelledby="modalDetailsTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalDetailsTitle">Szczegóły wydatku</h5>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="form-floating">
+                                    <p class="form-control" id="floatingValue"><?php echo e(number_format($expense['amount'], 2, ',', '')); ?></p>
+                                    <label for="floatingValue"><i class="bi bi-currency-dollar"></i>Wartość [zł]</label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <p class="form-control" id="floatingValue"><?php echo e(date('d-m-Y', strtotime($expense['date_of_expense']))); ?></p>
+                                    <label for="floatingValue"><i class="bi bi-calendar3"></i>Data</label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <p class="form-control" id="floatingValue"><?php echo e($expense['category_name']); ?></p>
+                                    <label for="floatingValue"><i class="bi bi-tag"></i>Kategoria</label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <p class="form-control" id="floatingValue"><?php echo e($expense['payment_method']); ?></p>
+                                    <label for="floatingValue"><i class="bi bi-credit-card"></i>Metoda płatności</label>
+                                </div>
+
+                                <?php if (!empty($expense['expense_comment'])) : ?>
+                                    <div class="form-floating">
+                                        <p class="form-control form-description" id="floatingValue"><?php echo e($expense['expense_comment']); ?></p>
+                                        <label for="floatingValue"><i class="bi bi-pencil"></i>Opis</label>
+                                    </div>
+                                <?php endif; ?>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
             <script>
                 $(document).ready(function() {
                     <?php if (array_key_exists('dateStart', $errors) || array_key_exists('dateEnd', $errors)): ?>
@@ -87,7 +178,7 @@
                                     <th scope="col">Wartość [zł]</th>
                                     <th scope="col">Data</th>
                                     <th scope="col">Kategoria</th>
-                                    <th scope="col">Szczegóły</th>
+                                    <th scope="col">Akcje</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -96,8 +187,11 @@
                                     echo '<td>' . ($index + 1) . '</td>';
                                     echo '<td>' . e(number_format($expense['amount'], 2, ',', '')) . '</td>';
                                     echo '<td>' . e(date('d-m-Y', strtotime($expense['date_of_expense']))) . '</td>';
-                                    echo '<td>' . e($expense['name']) . '</td>';
-                                    echo '<td><a class="text-reset text-decoration-none description" href="#">Kliknij</a></td>';
+                                    echo '<td>' . e($expense['category_name']) . '</td>';
+                                    echo '<td>
+                                    <a data-bs-toggle="modal" data-bs-target="#modalExpenseDetails' . e($index + 1) . '" class="text-reset text-decoration-none description" href="#"><i class="bi bi-clipboard-data"></i></a>
+                                    <a class="text-reset text-decoration-none description" href="#"><i class="bi bi-pencil-square"></i></a>
+                                    <a class="text-reset text-decoration-none description" href="#"><i class="bi last bi-trash"></i></a></td>';
                                     echo '</tr>';
                                 endforeach; ?>
                             </tbody>
@@ -142,7 +236,7 @@
                                     <th scope="col">Wartość [zł]</th>
                                     <th scope="col">Data</th>
                                     <th scope="col">Kategoria</th>
-                                    <th scope="col">Szczegóły</th>
+                                    <th scope="col">Akcje</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -152,7 +246,11 @@
                                     echo '<td>' . e(number_format($income['amount'], 2, ',', '')) . '</td>';
                                     echo '<td>' . e(date('d-m-Y', strtotime($income['date_of_income']))) . '</td>';
                                     echo '<td>' . e($income['name']) . '</td>';
-                                    echo '<td><a class="text-reset text-decoration-none description" href="#">Kliknij</a></td>';
+                                    echo '<td>
+                                    <a data-bs-toggle="modal" data-bs-target="#modalIncomeDetails' . e($index + 1) . '" class="text-reset text-decoration-none" href="#"><i class="bi bi-clipboard-data"></i></a>
+                                    <a class="text-reset text-decoration-none" href="#"><i class="bi bi-pencil-square"></i></a>
+                                    <a class="text-reset text-decoration-none" href="#"><i class="bi last bi-trash"></i></a>
+                                        </td>';
                                     echo '</tr>';
                                 endforeach; ?>
                             </tbody>

@@ -5351,6 +5351,7 @@ textarea.form-control-lg {
 
 .modal-title {
   margin-bottom: 0;
+  margin-top: 0;
   line-height: var(--bs-modal-title-line-height);
 }
 
@@ -11138,4 +11139,12 @@ input[type=number] {
 
 .bi {
   margin-right: 8px;
+}
+
+.bi.last {
+  margin-right: 0px;
+}
+
+.form-description {
+  height: auto !important;
 }
