@@ -262,4 +262,29 @@ class TransactionService
 
         return [$incomes_labels,  $incomes_data];
     }
+
+
+    public function editIncome(array $formData)
+    {
+        $formattedDate = \DateTime::createFromFormat('d-m-Y', $formData['date'])->format('Y-m-d');
+        $categoryId = $this->getIncomeCategoryId($formData['category']);
+
+        $this->db->query(
+            "UPDATE incomes
+            SET income_comment = :description,
+            amount = :value,
+            date_of_income = :date,
+            income_category_assigned_to_user_id = :category_id
+            WHERE id = :id
+            AND user_id = :user_id",
+            [
+                'user_id' => $_SESSION['user'],
+                'id' => $formData['id'],
+                'category_id' => $categoryId,
+                'value' => $formData['value'],
+                'date' => $formattedDate,
+                'description' => $formData['description']
+            ]
+        );
+    }
 }

@@ -59,6 +59,13 @@ class App
         return $this;
     }
 
+    public function editIncome(string $path, array $controller): App
+    {
+        $this->router->add('EDIT_INCOME', $path, $controller);
+
+        return $this;
+    }
+
     public function setErrorHandler(array $controller)
     {
         $this->router->setErrorHandler($controller);

@@ -35,6 +35,7 @@ function registerRoutes(App $app)
     $app->post('/balance', [TransactionController::class, 'customBalance'])->add(AuthRequiredMiddleware::class);
     $app->get('/balancePreviousMonth', [TransactionController::class, 'balancePreviousMonth'])->add(AuthRequiredMiddleware::class);
     $app->get('/balanceCurrentYear', [TransactionController::class, 'balanceCurrentYear'])->add(AuthRequiredMiddleware::class);
+    $app->editIncome('/balance', [TransactionController::class, 'editIncome'])->add(AuthRequiredMiddleware::class);
 
     $app->setErrorHandler([ErrorController::class, 'notFound']);
 }

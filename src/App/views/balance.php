@@ -71,7 +71,7 @@
             <!-- Modal income details-->
 
             <?php foreach ($incomes as $index => $income): ?>
-                <div class="modal fade" id="modalIncomeDetails<?php echo $index + 1; ?>" tabindex="-1" aria-labelledby="modalDetailsTitle" aria-hidden="true">
+                <div class="modal fade" id="modalIncomeDetails<?php echo e($income['id']); ?>" tabindex="-1" aria-labelledby="modalDetailsTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -158,6 +158,100 @@
                     </div>
                 </div>
             <?php endforeach; ?>
+
+
+            <!-- Modal income edit-->
+
+            <?php foreach ($incomes as $index => $income): ?>
+                <div class="modal fade" id="modalIncomeEdit<?php echo e($income['id']); ?>" tabindex="-1" aria-labelledby="modalEditTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <form method="POST">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalEditTitle">Edytuj przychód</h5>
+                                </div>
+
+                                <input type="hidden" name="id" value="<?php echo e($income['id']); ?>">
+
+                                <div class="modal-body">
+                                    <input type="hidden" name="_METHOD" value="EDIT_INCOME" />
+
+                                    <?php include $this->resolve("partials/_csrf.php"); ?>
+
+                                    <div class="form-floating">
+                                        <input value="<?php echo e(isset($oldFormData['value']) && $oldFormData['id'] == $income['id'] ? $oldFormData['value'] : $income['amount']); ?>"
+                                            type="number" step=0.01 class="form-control" id="floatingValue" placeholder="" name="value">
+                                        <label for="floatingValue"><i class="bi bi-currency-dollar"></i>Wartość</label>
+                                    </div>
+
+                                    <?php if (array_key_exists('value', $errors) && $oldFormData['id'] == $income['id'] && $oldFormData['_METHOD'] == 'EDIT_INCOME') : ?>
+                                        <div class="error">
+                                            <?php echo e($errors['value'][0]); ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <div class="form-floating mt-3">
+                                        <input value="<?php echo e(isset($oldFormData['date']) && $oldFormData['id'] == $income['id'] ? $oldFormData['date'] : date('d-m-Y', strtotime($income['date_of_income']))); ?>"
+                                            type="text" class="form-control" id="floatingDate" placeholder="" name="date" autocomplete="off">
+                                        <label for="floatingDate"><i class="bi bi-calendar3"></i>Data</label>
+                                    </div>
+
+                                    <?php if (array_key_exists('date', $errors) && $oldFormData['id'] == $income['id'] && $oldFormData['_METHOD'] == 'EDIT_INCOME') : ?>
+                                        <div class="error">
+                                            <?php echo e($errors['date'][0]); ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <div class="form-floating mt-3">
+                                        <select class="form-select has-value" id="floatingCategory" name="category">
+                                            <option hidden disabled selected value></option>
+                                            <?php foreach ($categories as $category):
+                                                $selected = '';
+
+                                                if (isset($oldFormData['category']) && $oldFormData['id'] == $income['id'] && $oldFormData['category'] == $category['name']) {
+                                                    $selected = 'selected';
+                                                } elseif (isset($oldFormData['category']) && $oldFormData['id'] != $income['id'] && $income['name'] == $category['name']) {
+                                                    $selected = 'selected';
+                                                } elseif (!isset($oldFormData['category']) && $income['name'] == $category['name']) {
+                                                    $selected = 'selected';
+                                                }
+                                                echo '<option value="' . e($category['name']) . '" ' . $selected . '>' . e($category['name']) . '</option>';
+                                            endforeach; ?>
+                                        </select>
+                                        <label for="floatingCategory"><i class="bi bi-tag"></i>Kategoria</label>
+                                    </div>
+
+                                    <div class="form-floating mt-3">
+                                        <input value="<?php echo e(isset($oldFormData['description']) && $oldFormData['id'] == $income['id'] ? $oldFormData['description'] : $income['income_comment']); ?>"
+                                            type="text" class="form-control" id="floatingDescription" placeholder="" name="description">
+                                        <label for="floatingDescription"><i class="bi bi-pencil"></i>Opis (opcjonalnie)</label>
+                                    </div>
+
+                                    <?php if (array_key_exists('description', $errors) && $oldFormData['id'] == $income['id'] && $oldFormData['_METHOD'] == 'EDIT_INCOME') : ?>
+                                        <div class="error">
+                                            <?php echo e($errors['description'][0]); ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                                    <input type="submit" value="Zapisz zmiany" class="btn btn-primary" data-bs-dismiss="modal" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
+            <script>
+                $(document).ready(function() {
+                    <?php if (array_key_exists('value', $errors) || array_key_exists('date', $errors) || array_key_exists('description', $errors)) : ?>
+                        $('#modalIncomeEdit<?php echo e($oldFormData['id']); ?>').modal('show');
+                    <?php endif; ?>
+                });
+            </script>
 
             <script>
                 $(document).ready(function() {
@@ -247,8 +341,8 @@
                                     echo '<td>' . e(date('d-m-Y', strtotime($income['date_of_income']))) . '</td>';
                                     echo '<td>' . e($income['name']) . '</td>';
                                     echo '<td>
-                                    <a data-bs-toggle="modal" data-bs-target="#modalIncomeDetails' . e($index + 1) . '" class="text-reset text-decoration-none" href="#"><i class="bi bi-clipboard-data"></i></a>
-                                    <a class="text-reset text-decoration-none" href="#"><i class="bi bi-pencil-square"></i></a>
+                                    <a data-bs-toggle="modal" data-bs-target="#modalIncomeDetails' . e($income['id']) . '" class="text-reset text-decoration-none" href="#"><i class="bi bi-clipboard-data"></i></a>
+                                    <a data-bs-toggle="modal" data-bs-target="#modalIncomeEdit' . e($income['id']) . '" class="text-reset text-decoration-none" href="#"><i class="bi bi-pencil-square"></i></a>
                                     <a class="text-reset text-decoration-none" href="#"><i class="bi last bi-trash"></i></a>
                                         </td>';
                                     echo '</tr>';
