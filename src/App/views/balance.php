@@ -1,15 +1,15 @@
 <?php include $this->resolve("partials/_navbar.php"); ?>
 
 <header class="masthead">
-    <div class="container px-4 px-lg-5 h-100">
-        <div class="row gx-4 gx-lg-5 align-items-center justify-content-center text-center">
+    <div class="container px-4 px-lg-5 h-75">
+        <div class="row gx-4 gx-lg-5 align-items-center h-100 justify-content-center text-center">
             <div class="col-lg-8 align-self-end">
                 <?php
-                echo '<h2 class="text-white">Bilans w okresie od ' . e(date('d-m-Y', strtotime($start_date))) .
-                    ' do ' . e(date('d-m-Y', strtotime($end_date))) . ': ' . e(number_format($balance, 2, ',', '')) . ' zł</h2>'
+                echo '<h4 class="text-white">Bilans w okresie od ' . e(date('d-m-Y', strtotime($start_date))) .
+                    ' do ' . e(date('d-m-Y', strtotime($end_date))) . ': ' . e(number_format($balance, 2, ',', '')) . ' zł</h4>'
                 ?>
             </div>
-            <div class="col-lg-4 align-self-center">
+            <div class="d-flex col-lg-4 justify-content-center">
                 <div class="dropdown">
                     <button class="btn btn-primary btn-xl mb-3 mb-sm-0"><i class="bi bi-calendar3"></i>Wybierz okres</button>
                     <div class="dropdown-content">
@@ -479,9 +479,9 @@
                 });
             </script>
 
-            <div class="row gx-4 gx-lg-5 align-items-center justify-content-center text-center">
+            <div class="row gx-4 gx-lg-5 h-75 align-items-center justify-content-center text-center">
                 <div class="col-lg-6 align-self-baseline">
-                    <h2 class="text-white mt-3">Wydatki</h2>
+                    <h4 class="text-white mt-3">Wydatki</h4>
                     <div class="table-wrapper col-12">
                         <table class="table table-striped table-sm text-white ">
                             <thead class="header">
@@ -509,37 +509,9 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="container mt-1 pie-chart">
-                        <canvas id="myChart"></canvas>
-                    </div>
-
-                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-                    <script>
-                        const ctx = document.getElementById('myChart');
-
-                        new Chart(ctx, {
-                            type: 'pie',
-                            data: {
-                                labels: <?php echo json_encode($expenses_labels); ?>,
-                                datasets: [{
-                                    data: <?php echo json_encode($expenses_data); ?>
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                plugins: {
-                                    legend: {
-                                        display: false
-                                    }
-                                }
-                            }
-                        });
-                    </script>
-
                 </div>
                 <div class="col-lg-6 align-self-baseline">
-                    <h2 class="text-white mt-3">Przychody</h2>
+                    <h4 class="text-white mt-3">Przychody</h4>
                     <div class="table-wrapper col-12">
                         <table class="table table-striped table-sm text-white ">
                             <thead class="header">
@@ -568,32 +540,46 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
 
-                    <div class="container mt-1 pie-chart">
-                        <canvas id="myChart2"></canvas>
-                    </div>
-                    <script>
-                        const ctx2 = document.getElementById('myChart2');
+                <h4 class="text-white m-0">Struktura wydatków w wybranym okresie</h4>
 
-                        new Chart(ctx2, {
-                            type: 'pie',
-                            data: {
-                                labels: <?php echo json_encode($incomes_labels); ?>,
-                                datasets: [{
-                                    data: <?php echo json_encode($incomes_data); ?>
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                plugins: {
-                                    legend: {
-                                        display: false
+                <div class="container mt-3 pie-chart h-50 w-lg-50">
+                    <canvas id="myChart"></canvas>
+                </div>
+
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                <script>
+                    const ctx = document.getElementById('myChart');
+
+                    new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: <?php echo json_encode($expenses_labels); ?>,
+                            datasets: [{
+                                data: <?php echo json_encode($expenses_data); ?>
+                            }]
+                        },
+                        options: {
+                            maintainAspectRatio: false,
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'right',
+                                    labels: {
+                                        color: 'white',
+                                        font: {
+                                            family: 'serif',
+                                            size: '16px'
+                                        }
                                     }
                                 }
                             }
-                        });
-                    </script>
-                </div>
+                        }
+                    });
+                </script>
             </div>
         </div>
 </header>
