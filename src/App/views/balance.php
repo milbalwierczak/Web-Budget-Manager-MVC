@@ -115,7 +115,7 @@
             <!-- Modal expense details-->
 
             <?php foreach ($expenses as $index => $expense): ?>
-                <div class="modal fade" id="modalExpenseDetails<?php echo $index + 1; ?>" tabindex="-1" aria-labelledby="modalDetailsTitle" aria-hidden="true">
+                <div class="modal fade" id="modalExpenseDetails<?php echo e($expense['id']); ?>" tabindex="-1" aria-labelledby="modalDetailsTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -193,7 +193,7 @@
 
                                     <div class="form-floating mt-3">
                                         <input value="<?php echo e(isset($oldFormData['date']) && $oldFormData['id'] == $income['id'] ? $oldFormData['date'] : date('d-m-Y', strtotime($income['date_of_income']))); ?>"
-                                            type="text" class="form-control" id="floatingDate" placeholder="" name="date" autocomplete="off">
+                                            type="text" class="form-control floatingDate" id="floatingDate" placeholder="" name="date" autocomplete="off">
                                         <label for="floatingDate"><i class="bi bi-calendar3"></i>Data</label>
                                     </div>
 
@@ -206,7 +206,7 @@
                                     <div class="form-floating mt-3">
                                         <select class="form-select has-value" id="floatingCategory" name="category">
                                             <option hidden disabled selected value></option>
-                                            <?php foreach ($categories as $category):
+                                            <?php foreach ($incomeCategories as $category):
                                                 $selected = '';
 
                                                 if (isset($oldFormData['category']) && $oldFormData['id'] == $income['id'] && $oldFormData['category'] == $category['name']) {
@@ -245,10 +245,119 @@
                 </div>
             <?php endforeach; ?>
 
+
+            <!-- Modal expense edit-->
+
+            <?php foreach ($expenses as $index => $expense): ?>
+                <div class="modal fade" id="modalExpenseEdit<?php echo e($expense['id']); ?>" tabindex="-1" aria-labelledby="modalEditTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <form method="POST">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalEditTitle">Edytuj wydatek</h5>
+                                </div>
+
+                                <input type="hidden" name="id" value="<?php echo e($expense['id']); ?>">
+
+                                <div class="modal-body">
+                                    <input type="hidden" name="_METHOD" value="EDIT_EXPENSE" />
+
+                                    <?php include $this->resolve("partials/_csrf.php"); ?>
+
+                                    <div class="form-floating">
+                                        <input value="<?php echo e(isset($oldFormData['value']) && $oldFormData['id'] == $expense['id'] ? $oldFormData['value'] : $expense['amount']); ?>"
+                                            type="number" step=0.01 class="form-control" id="floatingValue" placeholder="" name="value">
+                                        <label for="floatingValue"><i class="bi bi-currency-dollar"></i>Wartość</label>
+                                    </div>
+
+                                    <?php if (array_key_exists('value', $errors) && $oldFormData['id'] == $expense['id'] && $oldFormData['_METHOD'] == 'EDIT_EXPENSE') : ?>
+                                        <div class="error">
+                                            <?php echo e($errors['value'][0]); ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <div class="form-floating mt-3">
+                                        <input value="<?php echo e(isset($oldFormData['date']) && $oldFormData['id'] == $expense['id'] ? $oldFormData['date'] : date('d-m-Y', strtotime($expense['date_of_expense']))); ?>"
+                                            type="text" class="form-control floatingDate" id="floatingDate" placeholder="" name="date" autocomplete="off">
+                                        <label for="floatingDate"><i class="bi bi-calendar3"></i>Data</label>
+                                    </div>
+
+                                    <?php if (array_key_exists('date', $errors) && $oldFormData['id'] == $expense['id'] && $oldFormData['_METHOD'] == 'EDIT_EXPENSE') : ?>
+                                        <div class="error">
+                                            <?php echo e($errors['date'][0]); ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <div class="form-floating mt-3">
+                                        <select class="form-select has-value" id="floatingCategory" name="category">
+                                            <option hidden disabled selected value></option>
+                                            <?php foreach ($expenseCategories as $category):
+                                                $selected = '';
+
+                                                if (isset($oldFormData['category']) && $oldFormData['id'] == $expense['id'] && $oldFormData['category'] == $category['name']) {
+                                                    $selected = 'selected';
+                                                } elseif (isset($oldFormData['category']) && $oldFormData['id'] != $expense['id'] && $expense['category_name'] == $category['name']) {
+                                                    $selected = 'selected';
+                                                } elseif (!isset($oldFormData['category']) && $expense['category_name'] == $category['name']) {
+                                                    $selected = 'selected';
+                                                }
+                                                echo '<option value="' . e($category['name']) . '" ' . $selected . '>' . e($category['name']) . '</option>';
+                                            endforeach; ?>
+                                        </select>
+                                        <label for="floatingCategory"><i class="bi bi-tag"></i>Kategoria</label>
+                                    </div>
+
+                                    <div class="form-floating mt-3">
+                                        <select class="form-select has-value" id="floatingMethod" name="method">
+                                            <option hidden disabled selected value></option>
+                                            <?php foreach ($paymentMethods as $method):
+                                                $selected = '';
+
+                                                if (isset($oldFormData['method']) && $oldFormData['id'] == $expense['id'] && $oldFormData['method'] == $method['name']) {
+                                                    $selected = 'selected';
+                                                } elseif (isset($oldFormData['method']) && $oldFormData['id'] != $expense['id'] && $expense['payment_method'] == $method['name']) {
+                                                    $selected = 'selected';
+                                                } elseif (!isset($oldFormData['method']) && $expense['payment_method'] == $method['name']) {
+                                                    $selected = 'selected';
+                                                }
+                                                echo '<option value="' . e($method['name']) . '" ' . $selected . '>' . e($method['name']) . '</option>';
+                                            endforeach; ?>
+                                        </select>
+                                        <label for="floatingMethod"><i class="bi bi-credit-card"></i>Metoda płatności</label>
+                                    </div>
+
+                                    <div class="form-floating mt-3">
+                                        <input value="<?php echo e(isset($oldFormData['description']) && $oldFormData['id'] == $expense['id'] ? $oldFormData['description'] : $expense['expense_comment']); ?>"
+                                            type="text" class="form-control" id="floatingDescription" placeholder="" name="description">
+                                        <label for="floatingDescription"><i class="bi bi-pencil"></i>Opis (opcjonalnie)</label>
+                                    </div>
+
+                                    <?php if (array_key_exists('description', $errors) && $oldFormData['id'] == $expense['id'] && $oldFormData['_METHOD'] == 'EDIT_EXPENSE') : ?>
+                                        <div class="error">
+                                            <?php echo e($errors['description'][0]); ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                                    <input type="submit" value="Zapisz zmiany" class="btn btn-primary" data-bs-dismiss="modal" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
             <script>
                 $(document).ready(function() {
                     <?php if (array_key_exists('value', $errors) || array_key_exists('date', $errors) || array_key_exists('description', $errors)) : ?>
-                        $('#modalIncomeEdit<?php echo e($oldFormData['id']); ?>').modal('show');
+                        <?php if ($oldFormData['_METHOD'] == 'EDIT_INCOME') : ?>
+                            $('#modalIncomeEdit<?php echo e($oldFormData['id']); ?>').modal('show');
+                        <?php elseif ($oldFormData['_METHOD'] == 'EDIT_EXPENSE') : ?>
+                            $('#modalExpenseEdit<?php echo e($oldFormData['id']); ?>').modal('show');
+                        <?php endif; ?>
                     <?php endif; ?>
                 });
             </script>
@@ -283,8 +392,8 @@
                                     echo '<td>' . e(date('d-m-Y', strtotime($expense['date_of_expense']))) . '</td>';
                                     echo '<td>' . e($expense['category_name']) . '</td>';
                                     echo '<td>
-                                    <a data-bs-toggle="modal" data-bs-target="#modalExpenseDetails' . e($index + 1) . '" class="text-reset text-decoration-none description" href="#"><i class="bi bi-clipboard-data"></i></a>
-                                    <a class="text-reset text-decoration-none description" href="#"><i class="bi bi-pencil-square"></i></a>
+                                    <a data-bs-toggle="modal" data-bs-target="#modalExpenseDetails' . e($expense['id'])  . '" class="text-reset text-decoration-none description" href="#"><i class="bi bi-clipboard-data"></i></a>
+                                    <a data-bs-toggle="modal" data-bs-target="#modalExpenseEdit' . e($expense['id']) . '"class="text-reset text-decoration-none description" href="#"><i class="bi bi-pencil-square"></i></a>
                                     <a class="text-reset text-decoration-none description" href="#"><i class="bi last bi-trash"></i></a></td>';
                                     echo '</tr>';
                                 endforeach; ?>

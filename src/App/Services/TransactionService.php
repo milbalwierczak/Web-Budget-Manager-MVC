@@ -187,7 +187,7 @@ class TransactionService
         $incomes = $this->db->query(
             "SELECT i.id, i.amount, i.date_of_income, c.name, i.income_comment FROM incomes AS i, 
       incomes_category_assigned_to_users AS c WHERE i.income_category_assigned_to_user_id = c.id 
-      AND i.user_id = :user_id AND i.date_of_income BETWEEN :start_date AND :end_date  ORDER BY i.date_of_income ASC",
+      AND i.user_id = :user_id AND i.date_of_income BETWEEN :start_date AND :end_date  ORDER BY i.date_of_income DESC",
             [
                 'user_id' => $_SESSION['user'],
                 'start_date' => $start_date,
@@ -204,7 +204,7 @@ class TransactionService
             "SELECT e.id, e.amount, e.date_of_expense, c.name AS category_name, e.expense_comment, p.name AS payment_method
             FROM expenses AS e, expenses_category_assigned_to_users AS c, payment_methods_assigned_to_users AS p
             WHERE e.expense_category_assigned_to_user_id = c.id AND e.payment_method_assigned_to_user_id = p.id
-      AND e.user_id = :user_id AND e.date_of_expense BETWEEN :start_date AND :end_date ORDER BY e.date_of_expense ASC",
+      AND e.user_id = :user_id AND e.date_of_expense BETWEEN :start_date AND :end_date ORDER BY e.date_of_expense DESC",
             [
                 'user_id' => $_SESSION['user'],
                 'start_date' => $start_date,
@@ -281,6 +281,33 @@ class TransactionService
                 'user_id' => $_SESSION['user'],
                 'id' => $formData['id'],
                 'category_id' => $categoryId,
+                'value' => $formData['value'],
+                'date' => $formattedDate,
+                'description' => $formData['description']
+            ]
+        );
+    }
+
+    public function editExpense(array $formData)
+    {
+        $formattedDate = \DateTime::createFromFormat('d-m-Y', $formData['date'])->format('Y-m-d');
+        $categoryId = $this->getExpenseCategoryId($formData['category']);
+        $paymentMethodId = $this->getPaymentMethodId($formData['method']);
+
+        $this->db->query(
+            "UPDATE expenses
+            SET expense_comment = :description,
+            amount = :value,
+            date_of_expense = :date,
+            expense_category_assigned_to_user_id = :category_id,
+            payment_method_assigned_to_user_id = :method_id
+            WHERE id = :id
+            AND user_id = :user_id",
+            [
+                'user_id' => $_SESSION['user'],
+                'id' => $formData['id'],
+                'category_id' => $categoryId,
+                'method_id' => $paymentMethodId,
                 'value' => $formData['value'],
                 'date' => $formattedDate,
                 'description' => $formData['description']

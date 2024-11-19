@@ -66,6 +66,14 @@ class App
         return $this;
     }
 
+    public function editExpense(string $path, array $controller): App
+    {
+        $this->router->add('EDIT_EXPENSE', $path, $controller);
+
+        return $this;
+    }
+
+
     public function setErrorHandler(array $controller)
     {
         $this->router->setErrorHandler($controller);

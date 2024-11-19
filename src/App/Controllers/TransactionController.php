@@ -56,7 +56,9 @@ class TransactionController
         $expenses = $this->transactionService->getUserExpenses($start_date, $end_date);
         [$expenses_labels, $expenses_data] = $this->transactionService->getUserExpensesCategorized($start_date, $end_date);
         [$incomes_labels, $incomes_data] = $this->transactionService->getUserIncomesCategorized($start_date, $end_date);
-        $categories = $this->transactionService->getIncomeCategories();
+        $incomeCategories = $this->transactionService->getIncomeCategories();
+        $expenseCategories = $this->transactionService->getExpenseCategories();
+        $paymentMethods = $this->transactionService->getPaymentMethods();
 
 
         echo $this->view->render("balance.php", [
@@ -69,7 +71,10 @@ class TransactionController
             'expenses_data' => $expenses_data,
             'incomes_labels' => $incomes_labels,
             'incomes_data' => $incomes_data,
-            'categories' => $categories
+            'incomeCategories' => $incomeCategories,
+            'expenseCategories' => $expenseCategories,
+            'paymentMethods' => $paymentMethods
+
         ]);
     }
 
@@ -128,7 +133,14 @@ class TransactionController
 
         $this->transactionService->editIncome($_POST);
 
-        $_SESSION['income_added'] = true;
+        redirectTo('/balance');
+    }
+
+    public function editExpense()
+    {
+        $this->validatorService->validateExpense($_POST);
+
+        $this->transactionService->editExpense($_POST);
 
         redirectTo('/balance');
     }
