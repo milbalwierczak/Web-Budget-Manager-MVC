@@ -314,4 +314,30 @@ class TransactionService
             ]
         );
     }
+
+    public function deleteIncome(array $formData)
+    {
+        $this->db->query(
+            "DELETE FROM incomes
+            WHERE id = :id
+            AND user_id = :user_id",
+            [
+                'user_id' => $_SESSION['user'],
+                'id' => $formData['id']
+            ]
+        );
+    }
+
+    public function deleteExpense(array $formData)
+    {
+        $this->db->query(
+            "DELETE FROM expenses
+            WHERE id = :id
+            AND user_id = :user_id",
+            [
+                'user_id' => $_SESSION['user'],
+                'id' => $formData['id']
+            ]
+        );
+    }
 }

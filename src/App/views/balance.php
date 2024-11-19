@@ -350,6 +350,115 @@
                 </div>
             <?php endforeach; ?>
 
+            <!-- Modal income delete-->
+
+            <?php foreach ($incomes as $index => $income): ?>
+                <div class="modal fade" id="modalIncomeDelete<?php echo e($income['id']); ?>" tabindex="-1" aria-labelledby="modalDeleteTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalDeleteTitle">Usuń przychód</h5>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="form-floating">
+                                    <p class="form-control" id="floatingValue"><?php echo e(number_format($income['amount'], 2, ',', '')); ?></p>
+                                    <label for="floatingValue"><i class="bi bi-currency-dollar"></i>Wartość [zł]</label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <p class="form-control" id="floatingValue"><?php echo e(date('d-m-Y', strtotime($income['date_of_income']))); ?></p>
+                                    <label for="floatingValue"><i class="bi bi-calendar3"></i>Data</label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <p class="form-control" id="floatingValue"><?php echo e($income['name']); ?></p>
+                                    <label for="floatingValue"><i class="bi bi-tag"></i>Kategoria</label>
+                                </div>
+
+                                <?php if (!empty($income['income_comment'])) : ?>
+                                    <div class="form-floating">
+                                        <p class="form-control form-description" id="floatingValue"><?php echo e($income['income_comment']); ?></p>
+                                        <label for="floatingValue"><i class="bi bi-pencil"></i>Opis</label>
+                                    </div>
+                                <?php endif; ?>
+
+                                <p class="error">Czy na pewno chcesz usunąć powyższy przychód?</p>
+
+                            </div>
+                            <div class="modal-footer">
+                                <form method="POST">
+                                    <?php include $this->resolve("partials/_csrf.php"); ?>
+                                    <input type="hidden" name="id" value="<?php echo e($income['id']); ?>">
+
+                                    <input type="hidden" name="_METHOD" value="DELETE_INCOME" />
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                                    <input type="submit" value="Usuń przychód" class="btn btn-danger" data-bs-dismiss="modal" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
+            <!-- Modal expense delete-->
+
+            <?php foreach ($expenses as $index => $expense): ?>
+                <div class="modal fade" id="modalExpenseDelete<?php echo e($expense['id']); ?>" tabindex="-1" aria-labelledby="modalDeleteTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalDeleteTitle">Usuń wydatek</h5>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="form-floating">
+                                    <p class="form-control" id="floatingValue"><?php echo e(number_format($expense['amount'], 2, ',', '')); ?></p>
+                                    <label for="floatingValue"><i class="bi bi-currency-dollar"></i>Wartość [zł]</label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <p class="form-control" id="floatingValue"><?php echo e(date('d-m-Y', strtotime($expense['date_of_expense']))); ?></p>
+                                    <label for="floatingValue"><i class="bi bi-calendar3"></i>Data</label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <p class="form-control" id="floatingValue"><?php echo e($expense['category_name']); ?></p>
+                                    <label for="floatingValue"><i class="bi bi-tag"></i>Kategoria</label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <p class="form-control" id="floatingValue"><?php echo e($expense['payment_method']); ?></p>
+                                    <label for="floatingValue"><i class="bi bi-credit-card"></i>Metoda płatności</label>
+                                </div>
+
+                                <?php if (!empty($expense['expense_comment'])) : ?>
+                                    <div class="form-floating">
+                                        <p class="form-control form-description" id="floatingValue"><?php echo e($expense['expense_comment']); ?></p>
+                                        <label for="floatingValue"><i class="bi bi-pencil"></i>Opis</label>
+                                    </div>
+                                <?php endif; ?>
+
+                                <p class="error">Czy na pewno chcesz usunąć powyższy wydatek?</p>
+
+                            </div>
+                            <div class="modal-footer">
+                                <form method="POST">
+                                    <?php include $this->resolve("partials/_csrf.php"); ?>
+                                    <input type="hidden" name="id" value="<?php echo e($expense['id']); ?>">
+
+                                    <input type="hidden" name="_METHOD" value="DELETE_EXPENSE" />
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                                    <input type="submit" value="Usuń wydatek" class="btn btn-danger" data-bs-dismiss="modal" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
+
+
             <script>
                 $(document).ready(function() {
                     <?php if (array_key_exists('value', $errors) || array_key_exists('date', $errors) || array_key_exists('description', $errors)) : ?>
@@ -393,8 +502,8 @@
                                     echo '<td>' . e($expense['category_name']) . '</td>';
                                     echo '<td>
                                     <a data-bs-toggle="modal" data-bs-target="#modalExpenseDetails' . e($expense['id'])  . '" class="text-reset text-decoration-none description" href="#"><i class="bi bi-clipboard-data"></i></a>
-                                    <a data-bs-toggle="modal" data-bs-target="#modalExpenseEdit' . e($expense['id']) . '"class="text-reset text-decoration-none description" href="#"><i class="bi bi-pencil-square"></i></a>
-                                    <a class="text-reset text-decoration-none description" href="#"><i class="bi last bi-trash"></i></a></td>';
+                                    <a data-bs-toggle="modal" data-bs-target="#modalExpenseEdit' . e($expense['id']) . '" class="text-reset text-decoration-none description" href="#"><i class="bi bi-pencil-square"></i></a>
+                                    <a data-bs-toggle="modal" data-bs-target="#modalExpenseDelete' . e($expense['id']) . '" class="text-reset text-decoration-none description" href="#"><i class="bi last bi-trash"></i></a></td>';
                                     echo '</tr>';
                                 endforeach; ?>
                             </tbody>
@@ -452,7 +561,7 @@
                                     echo '<td>
                                     <a data-bs-toggle="modal" data-bs-target="#modalIncomeDetails' . e($income['id']) . '" class="text-reset text-decoration-none" href="#"><i class="bi bi-clipboard-data"></i></a>
                                     <a data-bs-toggle="modal" data-bs-target="#modalIncomeEdit' . e($income['id']) . '" class="text-reset text-decoration-none" href="#"><i class="bi bi-pencil-square"></i></a>
-                                    <a class="text-reset text-decoration-none" href="#"><i class="bi last bi-trash"></i></a>
+                                    <a data-bs-toggle="modal" data-bs-target="#modalIncomeDelete' . e($income['id']) . '" class="text-reset text-decoration-none" href="#"><i class="bi last bi-trash"></i></a>
                                         </td>';
                                     echo '</tr>';
                                 endforeach; ?>

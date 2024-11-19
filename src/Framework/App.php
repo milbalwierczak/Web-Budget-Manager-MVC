@@ -52,9 +52,16 @@ class App
         $this->router->addRouteMiddleware($middleware);
     }
 
-    public function delete(string $path, array $controller): App
+    public function deleteIncome(string $path, array $controller): App
     {
-        $this->router->add('DELETE', $path, $controller);
+        $this->router->add('DELETE_INCOME', $path, $controller);
+
+        return $this;
+    }
+
+    public function deleteExpense(string $path, array $controller): App
+    {
+        $this->router->add('DELETE_EXPENSE', $path, $controller);
 
         return $this;
     }

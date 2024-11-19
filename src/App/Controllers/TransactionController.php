@@ -144,4 +144,19 @@ class TransactionController
 
         redirectTo('/balance');
     }
+
+    public function deleteIncome()
+    {
+        $this->transactionService->deleteIncome($_POST);
+
+        redirectTo('/balance');
+    }
+
+
+    public function deleteExpense()
+    {
+        $this->transactionService->deleteExpense($_POST);
+
+        redirectTo('/balance');
+    }
 }
