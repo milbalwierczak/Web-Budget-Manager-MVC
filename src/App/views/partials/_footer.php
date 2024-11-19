@@ -28,6 +28,15 @@
 </script>
 
 <script>
+    $('.floatingDate').datepicker({
+        format: "dd-mm-yyyy",
+        maxViewMode: 0,
+        language: "pl",
+        todayHighlight: true
+    });
+</script>
+
+<script>
     $('#floatingDateStart').datepicker({
         format: "dd-mm-yyyy",
         maxViewMode: 0,
