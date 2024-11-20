@@ -88,4 +88,19 @@ class ValidatorService
             'dateEnd' => ['required', 'dateFormat:d-m-Y', 'laterThan:dateStart']
         ]);
     }
+
+    public function validateNewPassword(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'newPassword' => ['required'],
+            'confirmNewPassword' => ['required', 'match:newPassword'],
+        ]);
+    }
+
+    public function validateNewName(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'name' => ['required', 'lengthMax:50']
+        ]);
+    }
 }

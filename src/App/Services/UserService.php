@@ -135,4 +135,99 @@ class UserService
             $params['httponly']
         );
     }
+
+    public function checkPassword(array $formData): void
+    {
+        $user = $this->db->query("SELECT * FROM users WHERE id = :id", [
+            'id' => $_SESSION['user']
+        ])->find();
+
+        $passwordMatch = password_verify(
+            $formData['currentPassword'],
+            $user['password'] ?? ''
+        );
+
+        if (!$user || !$passwordMatch) {
+            throw new ValidationException(['currentPassword' => ['Niepoprawne hasło']]);
+        }
+    }
+
+    public function changePassword(array $formData): void
+    {
+        $password = password_hash($formData['newPassword'], PASSWORD_BCRYPT, ['cost' => 12]);
+
+        $this->db->query(
+            "UPDATE users
+            SET password = :password
+            WHERE id = :id",
+            [
+                'id' => $_SESSION['user'],
+                'password' => $password
+            ]
+        );
+    }
+
+    public function changeName(array $formData): void
+    {
+        $this->db->query(
+            "UPDATE users
+            SET username = :username
+            WHERE id = :id",
+            [
+                'id' => $_SESSION['user'],
+                'username' => $formData['name']
+            ]
+        );
+    }
+
+    public function deleteAccount(): void
+    {
+        $this->db->query(
+            "DELETE FROM users
+            WHERE id = :id",
+            [
+                'id' => $_SESSION['user']
+            ]
+        );
+
+        $this->db->query(
+            "DELETE FROM expenses
+            WHERE user_id = :id",
+            [
+                'id' => $_SESSION['user']
+            ]
+        );
+
+        $this->db->query(
+            "DELETE FROM expenses_category_assigned_to_users
+            WHERE user_id = :id",
+            [
+                'id' => $_SESSION['user']
+            ]
+        );
+
+        $this->db->query(
+            "DELETE FROM incomes
+            WHERE user_id = :id",
+            [
+                'id' => $_SESSION['user']
+            ]
+        );
+
+        $this->db->query(
+            "DELETE FROM incomes_category_assigned_to_users
+            WHERE user_id = :id",
+            [
+                'id' => $_SESSION['user']
+            ]
+        );
+
+        $this->db->query(
+            "DELETE FROM payment_methods_assigned_to_users
+            WHERE user_id = :id",
+            [
+                'id' => $_SESSION['user']
+            ]
+        );
+    }
 }

@@ -80,6 +80,20 @@ class App
         return $this;
     }
 
+    public function changePassword(string $path, array $controller): App
+    {
+        $this->router->add('CHANGE_PASSWORD', $path, $controller);
+
+        return $this;
+    }
+
+    public function changeName(string $path, array $controller): App
+    {
+        $this->router->add('CHANGE_NAME', $path, $controller);
+
+        return $this;
+    }
+
 
     public function setErrorHandler(array $controller)
     {

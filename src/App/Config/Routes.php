@@ -41,6 +41,9 @@ function registerRoutes(App $app)
     $app->deleteIncome('/balance', [TransactionController::class, 'deleteIncome'])->add(AuthRequiredMiddleware::class);
     $app->deleteExpense('/balance', [TransactionController::class, 'deleteExpense'])->add(AuthRequiredMiddleware::class);
     $app->get('/settings', [SettingsController::class, 'settings'])->add(AuthRequiredMiddleware::class);
+    $app->changePassword('/settings', [SettingsController::class, 'changePassword'])->add(AuthRequiredMiddleware::class);
+    $app->changeName('/settings', [SettingsController::class, 'changeName'])->add(AuthRequiredMiddleware::class);
+    $app->get('/deleteAccount', [SettingsController::class, 'deleteAccount'])->add(AuthRequiredMiddleware::class);
 
     $app->setErrorHandler([ErrorController::class, 'notFound']);
 }
