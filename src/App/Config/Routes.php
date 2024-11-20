@@ -11,7 +11,8 @@ use App\Controllers\{
     AuthController,
     TransactionController,
     ReceiptController,
-    ErrorController
+    ErrorController,
+    SettingsController
 };
 use App\Middleware\{
     AuthRequiredMiddleware,
@@ -39,6 +40,7 @@ function registerRoutes(App $app)
     $app->editExpense('/balance', [TransactionController::class, 'editExpense'])->add(AuthRequiredMiddleware::class);
     $app->deleteIncome('/balance', [TransactionController::class, 'deleteIncome'])->add(AuthRequiredMiddleware::class);
     $app->deleteExpense('/balance', [TransactionController::class, 'deleteExpense'])->add(AuthRequiredMiddleware::class);
+    $app->get('/settings', [SettingsController::class, 'settings'])->add(AuthRequiredMiddleware::class);
 
     $app->setErrorHandler([ErrorController::class, 'notFound']);
 }

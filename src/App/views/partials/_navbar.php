@@ -33,6 +33,7 @@
                         <li class="nav-item"><a class="nav-link" href="/income">+ Dodaj przychód</a></li>
                         <li class="nav-item"><a class="nav-link" href="/expense">- Dodaj wydatek</a></li>
                         <li class="nav-item"><a class="nav-link" href="/balance"><i class="bi bi-graph-up"></i>Przeglądaj bilans</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/settings"><i class="bi bi-wrench"></i>Ustawienia</a></li>
                         <li class="nav-item"><a class="nav-link" href="/logout"><i class="bi bi-box-arrow-right"></i>Wyloguj się</a></li>
                     <?php else : ?>
                         <li class="nav-item"><a class="nav-link" href="/register"><i class="bi bi-person-plus"></i>Zarejestruj się</a></li>
