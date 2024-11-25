@@ -544,7 +544,7 @@
 
                 <h4 class="text-white m-0">Struktura wydatków w wybranym okresie</h4>
 
-                <div class="container mt-3 pie-chart h-50 w-lg-50">
+                <div class="container mt-3 pie-chart h-25 w-lg-50">
                     <canvas id="myChart"></canvas>
                 </div>
 

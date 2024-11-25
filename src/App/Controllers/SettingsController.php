@@ -62,4 +62,120 @@ class SettingsController
 
         redirectTo('/index');
     }
+
+    public function addIncomeCategory()
+    {
+        $this->validatorService->validateNewIncomeCategory($_POST);
+
+        $this->userService->doesIncomeCategoryExist($_POST['newIncomeCategory']);
+
+        $this->userService->addNewIncomeCategory($_POST);
+
+        $_SESSION['income_category_added'] = true;
+
+        redirectTo('/settings');
+    }
+
+
+    public function editIncomeCategory()
+    {
+        $this->validatorService->validateEditedIncomeCategory($_POST);
+
+        $this->userService->doesIncomeCategoryExist($_POST['newIncomeCategory']);
+
+        $this->userService->editIncomeCategory($_POST);
+
+        $_SESSION['income_category_edited'] = true;
+
+        redirectTo('/settings');
+    }
+
+    public function deleteIncomeCategory()
+    {
+        $deletedId = $this->transactionService->getIncomeCategoryId($_POST['category']);
+        $othersId = $this->transactionService->getIncomeCategoryId('Inne');
+
+        $this->userService->deleteIncomeCategory($_POST, $deletedId, $othersId);
+
+        $_SESSION['income_category_deleted'] = true;
+
+        redirectTo('/settings');
+    }
+
+    public function addExpenseCategory()
+    {
+        $this->validatorService->validateNewExpenseCategory($_POST);
+
+        $this->userService->doesExpenseCategoryExist($_POST['newExpenseCategory']);
+
+        $this->userService->addNewExpenseCategory($_POST);
+
+        $_SESSION['expense_category_added'] = true;
+
+        redirectTo('/settings');
+    }
+
+
+    public function editExpenseCategory()
+    {
+        $this->validatorService->validateEditedExpenseCategory($_POST);
+
+        $this->userService->doesExpenseCategoryExist($_POST['newExpenseCategory']);
+
+        $this->userService->editExpenseCategory($_POST);
+
+        $_SESSION['expense_category_edited'] = true;
+
+        redirectTo('/settings');
+    }
+
+    public function deleteExpenseCategory()
+    {
+        $deletedId = $this->transactionService->getExpenseCategoryId($_POST['category']);
+        $othersId = $this->transactionService->getExpenseCategoryId('Inne');
+
+        $this->userService->deleteExpenseCategory($_POST, $deletedId, $othersId);
+
+        $_SESSION['expense_category_deleted'] = true;
+
+        redirectTo('/settings');
+    }
+
+    public function addPaymentMethod()
+    {
+        $this->validatorService->validateNewPaymentMethod($_POST);
+
+        $this->userService->doesPaymentMethodExist($_POST['newPaymentMethod']);
+
+        $this->userService->addNewPaymentMethod($_POST);
+
+        $_SESSION['payment_method_added'] = true;
+
+        redirectTo('/settings');
+    }
+
+    public function editPaymentMethod()
+    {
+        $this->validatorService->validateEditedPaymentMethod($_POST);
+
+        $this->userService->doesPaymentMethodExist($_POST['newPaymentMethod']);
+
+        $this->userService->editPaymentMethod($_POST);
+
+        $_SESSION['payment_method_edited'] = true;
+
+        redirectTo('/settings');
+    }
+
+    public function deletePaymentMethod()
+    {
+        $deletedId = $this->transactionService->getPaymentMethodId($_POST['method']);
+        $cashId = $this->transactionService->getPaymentMethodId('Gotówka');
+
+        $this->userService->deletePaymentMethod($_POST, $deletedId, $cashId);
+
+        $_SESSION['payment_method_deleted'] = true;
+
+        redirectTo('/settings');
+    }
 }

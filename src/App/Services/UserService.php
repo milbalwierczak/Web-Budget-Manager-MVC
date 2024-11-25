@@ -230,4 +230,241 @@ class UserService
             ]
         );
     }
+
+    public function doesIncomeCategoryExist(string $newIncomeCategoryName)
+    {
+        $name = ucfirst(strtolower($newIncomeCategoryName));
+
+        $nameCount = $this->db->query(
+            "SELECT COUNT(*) FROM incomes_category_assigned_to_users
+            WHERE user_id = :user_id AND name = :name",
+            [
+                'user_id' => $_SESSION['user'],
+                'name' => $name,
+            ]
+        )->count();
+
+        if ($nameCount > 0) {
+            throw new ValidationException(['newIncomeCategory' => ['Taka kategoria jest już w bazie']]);
+        }
+    }
+
+    public function addNewIncomeCategory(array $formData): void
+    {
+        $name = ucfirst(strtolower($formData['newIncomeCategory']));
+
+        $this->db->query(
+            "INSERT INTO incomes_category_assigned_to_users(user_id, name)
+            VALUES(:user_id, :name)",
+            [
+                'user_id' => $_SESSION['user'],
+                'name' => $name
+            ]
+        );
+    }
+
+    public function editIncomeCategory(array $formData): void
+    {
+        if ($formData['category'] == 'Inne') {
+            throw new ValidationException(['category' => ['Nie można edytować kategorii: inne']]);
+        }
+        $name = ucfirst(strtolower($formData['newIncomeCategory']));
+
+        $this->db->query(
+            "UPDATE incomes_category_assigned_to_users
+            SET name = :new_name
+            WHERE user_id = :user_id AND name = :name",
+            [
+                'user_id' => $_SESSION['user'],
+                'name' => $formData['category'],
+                'new_name' => $name,
+            ]
+        );
+    }
+
+    public function deleteIncomeCategory(array $formData, int $deletedId, int $othersId): void
+    {
+        if ($formData['category'] == 'Inne') {
+            throw new ValidationException(['category' => ['Nie można usunąć kategorii: inne']]);
+        }
+
+        $this->db->query(
+            "UPDATE incomes
+            SET income_category_assigned_to_user_id = :others_id
+            WHERE income_category_assigned_to_user_id = :deleted_id AND user_id = :user_id",
+            [
+                'user_id' => $_SESSION['user'],
+                'others_id' => $othersId,
+                'deleted_id' => $deletedId,
+            ]
+        );
+
+        $this->db->query(
+            "DELETE FROM incomes_category_assigned_to_users
+            WHERE user_id = :id AND id = :deleted_id ",
+            [
+                'id' => $_SESSION['user'],
+                'deleted_id' => $deletedId
+            ]
+        );
+    }
+
+
+    public function doesExpenseCategoryExist(string $newExpenseCategoryName)
+    {
+        $name = ucfirst(strtolower($newExpenseCategoryName));
+
+        $nameCount = $this->db->query(
+            "SELECT COUNT(*) FROM expenses_category_assigned_to_users
+            WHERE user_id = :user_id AND name = :name",
+            [
+                'user_id' => $_SESSION['user'],
+                'name' => $name,
+            ]
+        )->count();
+
+        if ($nameCount > 0) {
+            throw new ValidationException(['newExpenseCategory' => ['Taka kategoria jest już w bazie']]);
+        }
+    }
+
+    public function addNewExpenseCategory(array $formData): void
+    {
+        $name = ucfirst(strtolower($formData['newExpenseCategory']));
+
+        $this->db->query(
+            "INSERT INTO expenses_category_assigned_to_users(user_id, name)
+            VALUES(:user_id, :name)",
+            [
+                'user_id' => $_SESSION['user'],
+                'name' => $name
+            ]
+        );
+    }
+
+    public function editExpenseCategory(array $formData): void
+    {
+        if ($formData['category'] == 'Inne') {
+            throw new ValidationException(['category' => ['Nie można edytować kategorii: inne']]);
+        }
+        $name = ucfirst(strtolower($formData['newExpenseCategory']));
+
+        $this->db->query(
+            "UPDATE expenses_category_assigned_to_users
+            SET name = :new_name
+            WHERE user_id = :user_id AND name = :name",
+            [
+                'user_id' => $_SESSION['user'],
+                'name' => $formData['category'],
+                'new_name' => $name,
+            ]
+        );
+    }
+
+    public function deleteExpenseCategory(array $formData, int $deletedId, int $othersId): void
+    {
+        if ($formData['category'] == 'Inne') {
+            throw new ValidationException(['category' => ['Nie można usunąć kategorii: inne']]);
+        }
+
+        $this->db->query(
+            "UPDATE expenses
+            SET expense_category_assigned_to_user_id = :others_id
+            WHERE expense_category_assigned_to_user_id = :deleted_id AND user_id = :user_id",
+            [
+                'user_id' => $_SESSION['user'],
+                'others_id' => $othersId,
+                'deleted_id' => $deletedId,
+            ]
+        );
+
+        $this->db->query(
+            "DELETE FROM expenses_category_assigned_to_users
+            WHERE user_id = :id AND id = :deleted_id ",
+            [
+                'id' => $_SESSION['user'],
+                'deleted_id' => $deletedId
+            ]
+        );
+    }
+
+    public function doesPaymentMethodExist(string $newPaymentMethodName)
+    {
+        $name = ucfirst(strtolower($newPaymentMethodName));
+
+        $nameCount = $this->db->query(
+            "SELECT COUNT(*) FROM payment_methods_assigned_to_users
+            WHERE user_id = :user_id AND name = :name",
+            [
+                'user_id' => $_SESSION['user'],
+                'name' => $name,
+            ]
+        )->count();
+
+        if ($nameCount > 0) {
+            throw new ValidationException(['newPaymentMethod' => ['Taka metoda płatności jest już w bazie']]);
+        }
+    }
+
+    public function addNewPaymentMethod(array $formData): void
+    {
+        $name = ucfirst(strtolower($formData['newPaymentMethod']));
+
+        $this->db->query(
+            "INSERT INTO payment_methods_assigned_to_users(user_id, name)
+            VALUES(:user_id, :name)",
+            [
+                'user_id' => $_SESSION['user'],
+                'name' => $name
+            ]
+        );
+    }
+
+    public function editPaymentMethod(array $formData): void
+    {
+
+        if ($formData['method'] == 'Gotówka') {
+            throw new ValidationException(['method' => ['Nie można edytować kategorii: gotówka']]);
+        }
+
+        $name = ucfirst(strtolower($formData['newPaymentMethod']));
+
+        $this->db->query(
+            "UPDATE payment_methods_assigned_to_users
+            SET name = :new_name
+            WHERE user_id = :user_id AND name = :name",
+            [
+                'user_id' => $_SESSION['user'],
+                'name' => $formData['method'],
+                'new_name' => $name,
+            ]
+        );
+    }
+
+    public function deletePaymentMethod(array $formData, int $deletedId, int $cashId): void
+    {
+        if ($formData['method'] == 'Gotówka') {
+            throw new ValidationException(['method' => ['Nie można usunąć kategorii: gotówka']]);
+        }
+
+        $this->db->query(
+            "UPDATE expenses
+            SET payment_method_assigned_to_user_id = :cash_id
+            WHERE payment_method_assigned_to_user_id = :deleted_id AND user_id = :user_id",
+            [
+                'user_id' => $_SESSION['user'],
+                'cash_id' => $cashId,
+                'deleted_id' => $deletedId,
+            ]
+        );
+
+        $this->db->query(
+            "DELETE FROM payment_methods_assigned_to_users
+            WHERE user_id = :id AND id = :deleted_id ",
+            [
+                'id' => $_SESSION['user'],
+                'deleted_id' => $deletedId
+            ]
+        );
+    }
 }

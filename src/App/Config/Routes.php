@@ -43,7 +43,16 @@ function registerRoutes(App $app)
     $app->get('/settings', [SettingsController::class, 'settings'])->add(AuthRequiredMiddleware::class);
     $app->changePassword('/settings', [SettingsController::class, 'changePassword'])->add(AuthRequiredMiddleware::class);
     $app->changeName('/settings', [SettingsController::class, 'changeName'])->add(AuthRequiredMiddleware::class);
-    $app->get('/deleteAccount', [SettingsController::class, 'deleteAccount'])->add(AuthRequiredMiddleware::class);
+    $app->deleteAccount('/settings', [SettingsController::class, 'deleteAccount'])->add(AuthRequiredMiddleware::class);
+    $app->addIcnomeCategory('/settings', [SettingsController::class, 'addIncomeCategory'])->add(AuthRequiredMiddleware::class);
+    $app->editIncomeCategory('/settings', [SettingsController::class, 'editIncomeCategory'])->add(AuthRequiredMiddleware::class);
+    $app->deleteIncomeCategory('/settings', [SettingsController::class, 'deleteIncomeCategory'])->add(AuthRequiredMiddleware::class);
+    $app->addExpenseCategory('/settings', [SettingsController::class, 'addExpenseCategory'])->add(AuthRequiredMiddleware::class);
+    $app->editExpenseCategory('/settings', [SettingsController::class, 'editExpenseCategory'])->add(AuthRequiredMiddleware::class);
+    $app->deleteExpenseCategory('/settings', [SettingsController::class, 'deleteExpenseCategory'])->add(AuthRequiredMiddleware::class);
+    $app->addPaymentMethod('/settings', [SettingsController::class, 'addPaymentMethod'])->add(AuthRequiredMiddleware::class);
+    $app->editPaymentMethod('/settings', [SettingsController::class, 'editPaymentMethod'])->add(AuthRequiredMiddleware::class);
+    $app->deletePaymentMethod('/settings', [SettingsController::class, 'deletePaymentMethod'])->add(AuthRequiredMiddleware::class);
 
     $app->setErrorHandler([ErrorController::class, 'notFound']);
 }

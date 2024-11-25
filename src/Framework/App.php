@@ -95,6 +95,81 @@ class App
     }
 
 
+    public function deleteAccount(string $path, array $controller): App
+    {
+        $this->router->add('DELETE_ACCOUNT', $path, $controller);
+
+        return $this;
+    }
+
+
+    public function addIcnomeCategory(string $path, array $controller): App
+    {
+        $this->router->add('ADD_INCOME_CATEGORY', $path, $controller);
+
+        return $this;
+    }
+
+    public function editIncomeCategory(string $path, array $controller): App
+    {
+        $this->router->add('EDIT_INCOME_CATEGORY', $path, $controller);
+
+        return $this;
+    }
+
+
+    public function deleteIncomeCategory(string $path, array $controller): App
+    {
+        $this->router->add('DELETE_INCOME_CATEGORY', $path, $controller);
+
+        return $this;
+    }
+
+
+    public function addExpenseCategory(string $path, array $controller): App
+    {
+        $this->router->add('ADD_EXPENSE_CATEGORY', $path, $controller);
+
+        return $this;
+    }
+
+    public function editExpenseCategory(string $path, array $controller): App
+    {
+        $this->router->add('EDIT_EXPENSE_CATEGORY', $path, $controller);
+
+        return $this;
+    }
+
+
+    public function deleteExpenseCategory(string $path, array $controller): App
+    {
+        $this->router->add('DELETE_EXPENSE_CATEGORY', $path, $controller);
+
+        return $this;
+    }
+
+
+    public function addPaymentMethod(string $path, array $controller): App
+    {
+        $this->router->add('ADD_PAYMENT_METHOD', $path, $controller);
+
+        return $this;
+    }
+
+    public function editPaymentMethod(string $path, array $controller): App
+    {
+        $this->router->add('EDIT_PAYMENT_METHOD', $path, $controller);
+
+        return $this;
+    }
+
+    public function deletePaymentMethod(string $path, array $controller): App
+    {
+        $this->router->add('DELETE_PAYMENT_METHOD', $path, $controller);
+
+        return $this;
+    }
+
     public function setErrorHandler(array $controller)
     {
         $this->router->setErrorHandler($controller);
