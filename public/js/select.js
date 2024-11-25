@@ -10,7 +10,6 @@ document.getElementById('floatingValue').addEventListener('focus', function() {
     }
 });
 
-
 document.getElementById('floatingCategory').addEventListener('change', function() {
     if (this.value) {
         this.classList.add('has-value');
@@ -26,3 +25,7 @@ document.getElementById('floatingMethod').addEventListener('change', function() 
         this.classList.remove('has-value');
     }
 });
+
+
+
+

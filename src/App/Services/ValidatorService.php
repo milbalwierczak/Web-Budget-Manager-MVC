@@ -88,4 +88,64 @@ class ValidatorService
             'dateEnd' => ['required', 'dateFormat:d-m-Y', 'laterThan:dateStart']
         ]);
     }
+
+    public function validateNewPassword(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'newPassword' => ['required'],
+            'confirmNewPassword' => ['required', 'match:newPassword'],
+        ]);
+    }
+
+    public function validateNewName(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'name' => ['required', 'lengthMax:50']
+        ]);
+    }
+
+    public function validateNewIncomeCategory(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'newIncomeCategory' => ['required', 'lengthMax:50']
+        ]);
+    }
+
+    public function validateEditedIncomeCategory(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'category' => ['required'],
+            'newIncomeCategory' => ['required', 'lengthMax:50']
+        ]);
+    }
+
+    public function validateNewExpenseCategory(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'newExpenseCategory' => ['required', 'lengthMax:50']
+        ]);
+    }
+
+    public function validateEditedExpenseCategory(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'category' => ['required'],
+            'newExpenseCategory' => ['required', 'lengthMax:50']
+        ]);
+    }
+
+    public function validateNewPaymentMethod(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'newPaymentMethod' => ['required', 'lengthMax:50']
+        ]);
+    }
+
+    public function validateEditedPaymentMethod(array $formData)
+    {
+        $this->validator->validate($formData, [
+            'method' => ['required'],
+            'newPaymentMethod' => ['required', 'lengthMax:50']
+        ]);
+    }
 }
