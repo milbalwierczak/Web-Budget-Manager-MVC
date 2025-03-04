@@ -3,7 +3,7 @@
 <header class="masthead">
     <div class="container px-4 px-lg-5 h-100">
         <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
-            <div class="form-signin col-10 col-md-6 col-xl-4 m-auto">
+            <div class="form-signin col-10 col-md-6 col-xxl-5 m-auto">
                 <form method="post">
                     <?php include $this->resolve("partials/_csrf.php"); ?>
                     <h2 class="text-white font-weight-bold mb-5 mt-0">Wprowadź dane</h2>
@@ -93,6 +93,20 @@
                     }
                     ?>
                 </form>
+            </div>
+            <div class="form-signin col-10 col-md-6 col-xxl-5 m-auto">
+                <div class="form-floating mt-3">
+                    <p class="form-control">Wybierz kategorię</p>
+                    <label>Ustawiony limit:</label>
+                </div>
+                <div class="form-floating mt-3">
+                    <p class="form-control">Wybierz kategorię i datę</p>
+                    <label>Wydano:</label>
+                </div>
+                <div class="form-floating mt-3">
+                    <p class="form-control">Wybierz kategorię i datę</p>
+                    <label>Pozostało:</label>
+                </div>
             </div>
         </div>
     </div>

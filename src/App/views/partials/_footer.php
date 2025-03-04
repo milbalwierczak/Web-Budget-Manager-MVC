@@ -17,6 +17,7 @@
 <script src="/js/scripts.js"></script>
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 <script src="/js/select.js"></script>
+<script src="/js/settings.js"></script>
 
 <script>
     $('#floatingDate').datepicker({

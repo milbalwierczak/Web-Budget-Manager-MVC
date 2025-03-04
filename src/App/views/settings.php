@@ -441,7 +441,7 @@
 
     </div>
 
-    <!-- Modal edit category -->
+    <!-- Modal edit expense category -->
     <div class="modal fade" id="editExpenseCategoryModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -485,6 +485,26 @@
                                 <?php echo e($errors['newExpenseCategory'][0]); ?>
                             </div>
                         <?php endif; ?>
+
+                        <div class="form-check my-3">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckAddLimit">
+                            <label class="form-check-label" for="flexCheckAddLimit">
+                                Dodaj limit dla kategorii
+                            </label>
+                        </div>
+
+                        <div class="form-floating" id="floatingLimitContainer" style="display: none;">
+                            <input value="<?php echo e($oldFormData['value'] ?? ''); ?>"
+                                type="number" step=0.01 class="form-control" id="floatingLimit" placeholder="" name="value">
+                            <label for="floatingLimit"><i class="bi bi-currency-dollar"></i>Limit</label>
+                        </div>
+
+                        <?php if (array_key_exists('value', $errors)) : ?>
+                            <div class="error">
+                                <?php echo e($errors['value'][0]); ?>
+                            </div>
+                        <?php endif; ?>
+
                     </div>
                     <div class="modal-footer">
                         <p style="text-align: center">Uwaga: Zmieniając nazwę kategorii zmieniasz także kategorię przypisaną do dotychczasowych wydatków.</p>
