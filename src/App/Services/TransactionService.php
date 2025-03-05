@@ -340,4 +340,22 @@ class TransactionService
             ]
         );
     }
+
+
+    public function getLimitByCategory(string $category)
+    {
+        $category = urldecode($category);
+
+        $limit = $this->db->query(
+            "SELECT category_limit
+            FROM expenses_category_assigned_to_users
+            WHERE user_id = :user_id AND name = :name",
+            [
+                'user_id' => $_SESSION['user'],
+                'name' => $category,
+            ]
+        )->find();
+
+        return floatval($limit['category_limit']);
+    }
 }

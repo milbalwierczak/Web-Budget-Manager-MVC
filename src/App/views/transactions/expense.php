@@ -96,7 +96,7 @@
             </div>
             <div class="form-signin col-10 col-md-6 col-xxl-5 m-auto">
                 <div class="form-floating mt-3">
-                    <p class="form-control">Wybierz kategorię</p>
+                    <p class="form-control" id="limit-info">Wybierz kategorię</p>
                     <label>Ustawiony limit:</label>
                 </div>
                 <div class="form-floating mt-3">

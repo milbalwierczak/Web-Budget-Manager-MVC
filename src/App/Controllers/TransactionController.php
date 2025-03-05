@@ -159,4 +159,12 @@ class TransactionController
 
         redirectTo('/balance');
     }
+
+    public function getLimit(array $params)
+    {
+        $category = $params['category'];
+        $limit = $this->transactionService->getLimitByCategory($category);
+
+        echo json_encode($limit);
+    }
 }

@@ -456,7 +456,7 @@
                     <div class="modal-body">
 
                         <div class="form-floating mt-3">
-                            <select class="form-select <?php echo isset($oldFormData['category']) ? 'has-value' : ''; ?>" id="floatingCategory" name="category">
+                            <select class="form-select <?php echo isset($oldFormData['category']) ? 'has-value' : ''; ?>" id="floatingExpenseCategory" name="category">
                                 <option hidden disabled selected value></option>
                                 <?php foreach ($expenseCategories as $category):
                                     $selected = '';
@@ -466,7 +466,7 @@
                                     echo '<option value="' . e($category['name']) . '" ' . $selected . '>' . e($category['name']) . '</option>';
                                 endforeach; ?>
                             </select>
-                            <label for="floatingCategory"><i class="bi bi-tag"></i>Dotychczasowa kategoria</label>
+                            <label for="floatingExpenseCategory"><i class="bi bi-tag"></i>Dotychczasowa kategoria</label>
                         </div>
 
                         <?php if (array_key_exists('category', $errors) && $oldFormData['_METHOD'] == 'EDIT_EXPENSE_CATEGORY') : ?>
@@ -476,8 +476,8 @@
                         <?php endif; ?>
 
                         <div class="form-floating mt-3">
-                            <input type="text" class="form-control" id="floatingName" placeholder="" name="newExpenseCategory">
-                            <label for="floatingName"><i class="bi bi-tag"></i>Nowa nazwa</label>
+                            <input type="text" class="form-control" id="floatingExpenseName" placeholder="" name="newExpenseCategory">
+                            <label for="floatingExpenseName"><i class="bi bi-tag"></i>Nowa nazwa</label>
                         </div>
 
                         <?php if (array_key_exists('newExpenseCategory', $errors) && $oldFormData['_METHOD'] == 'EDIT_EXPENSE_CATEGORY') : ?>
@@ -509,7 +509,7 @@
                     <div class="modal-footer">
                         <p style="text-align: center">Uwaga: Zmieniając nazwę kategorii zmieniasz także kategorię przypisaną do dotychczasowych wydatków.</p>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
-                        <input type="submit" value="Zmień nazwę" class="btn btn-primary" data-bs-dismiss="modal" />
+                        <input type="submit" value="Potwierdź" class="btn btn-primary" data-bs-dismiss="modal" />
                     </div>
                 </form>
             </div>

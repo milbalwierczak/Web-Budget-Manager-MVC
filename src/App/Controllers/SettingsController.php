@@ -120,7 +120,9 @@ class SettingsController
     {
         $this->validatorService->validateEditedExpenseCategory($_POST);
 
-        $this->userService->doesExpenseCategoryExist($_POST['newExpenseCategory']);
+        if ($_POST['newExpenseCategory'] != $_POST['category']) {
+            $this->userService->doesExpenseCategoryExist($_POST['newExpenseCategory']);
+        }
 
         $this->userService->editExpenseCategory($_POST);
 
