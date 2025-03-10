@@ -55,6 +55,8 @@ function registerRoutes(App $app)
     $app->deletePaymentMethod('/settings', [SettingsController::class, 'deletePaymentMethod'])->add(AuthRequiredMiddleware::class);
     $app->get('/api/limit/{category}', [TransactionController::class, 'getLimit'])
         ->add(AuthRequiredMiddleware::class);
+    $app->get('/api/limitSpent/{category}/{date}', [TransactionController::class, 'getLimitSpent'])
+        ->add(AuthRequiredMiddleware::class);
 
     $app->setErrorHandler([ErrorController::class, 'notFound']);
 }

@@ -167,4 +167,13 @@ class TransactionController
 
         echo json_encode($limit);
     }
+
+    public function getLimitSpent(array $params)
+    {
+        $category = $params['category'];
+        $date = $params['date'];
+        $limit = $this->transactionService->getLimitSpentByCategory($category, $date);
+
+        echo json_encode($limit);
+    }
 }

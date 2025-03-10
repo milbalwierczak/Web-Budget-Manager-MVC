@@ -22,7 +22,7 @@
 
                     <div class="form-floating mt-3">
                         <input value="<?php echo e($oldFormData['date'] ?? ''); ?>"
-                            type="text" class="form-control" id="floatingDate" placeholder="" name="date" autocomplete="off">
+                            type="text" class="form-control" id="floatingDateExpense" placeholder="" name="date" autocomplete="off">
                         <label for="floatingDate"><i class="bi bi-calendar3"></i>Data</label>
                     </div>
 
@@ -100,11 +100,11 @@
                     <label>Ustawiony limit:</label>
                 </div>
                 <div class="form-floating mt-3">
-                    <p class="form-control">Wybierz kategorię i datę</p>
+                    <p class="form-control" id="limit-spent">Wybierz kategorię i datę</p>
                     <label>Wydano:</label>
                 </div>
                 <div class="form-floating mt-3">
-                    <p class="form-control">Wybierz kategorię i datę</p>
+                    <p class="form-control" id="limit-left">Wybierz kategorię i datę</p>
                     <label>Pozostało:</label>
                 </div>
             </div>
