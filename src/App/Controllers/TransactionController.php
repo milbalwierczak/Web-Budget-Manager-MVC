@@ -159,4 +159,21 @@ class TransactionController
 
         redirectTo('/balance');
     }
+
+    public function getLimit(array $params)
+    {
+        $category = $params['category'];
+        $limit = $this->transactionService->getLimitByCategory($category);
+
+        echo json_encode($limit);
+    }
+
+    public function getLimitSpent(array $params)
+    {
+        $category = $params['category'];
+        $date = $params['date'];
+        $limit = $this->transactionService->getLimitSpentByCategory($category, $date);
+
+        echo json_encode($limit);
+    }
 }

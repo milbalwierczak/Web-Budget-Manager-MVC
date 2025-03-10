@@ -441,7 +441,7 @@
 
     </div>
 
-    <!-- Modal edit category -->
+    <!-- Modal edit expense category -->
     <div class="modal fade" id="editExpenseCategoryModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -456,7 +456,7 @@
                     <div class="modal-body">
 
                         <div class="form-floating mt-3">
-                            <select class="form-select <?php echo isset($oldFormData['category']) ? 'has-value' : ''; ?>" id="floatingCategory" name="category">
+                            <select class="form-select <?php echo isset($oldFormData['category']) ? 'has-value' : ''; ?>" id="floatingExpenseCategory" name="category">
                                 <option hidden disabled selected value></option>
                                 <?php foreach ($expenseCategories as $category):
                                     $selected = '';
@@ -466,7 +466,7 @@
                                     echo '<option value="' . e($category['name']) . '" ' . $selected . '>' . e($category['name']) . '</option>';
                                 endforeach; ?>
                             </select>
-                            <label for="floatingCategory"><i class="bi bi-tag"></i>Dotychczasowa kategoria</label>
+                            <label for="floatingExpenseCategory"><i class="bi bi-tag"></i>Dotychczasowa kategoria</label>
                         </div>
 
                         <?php if (array_key_exists('category', $errors) && $oldFormData['_METHOD'] == 'EDIT_EXPENSE_CATEGORY') : ?>
@@ -476,8 +476,8 @@
                         <?php endif; ?>
 
                         <div class="form-floating mt-3">
-                            <input type="text" class="form-control" id="floatingName" placeholder="" name="newExpenseCategory">
-                            <label for="floatingName"><i class="bi bi-tag"></i>Nowa nazwa</label>
+                            <input type="text" class="form-control" id="floatingExpenseName" placeholder="" name="newExpenseCategory">
+                            <label for="floatingExpenseName"><i class="bi bi-tag"></i>Nowa nazwa</label>
                         </div>
 
                         <?php if (array_key_exists('newExpenseCategory', $errors) && $oldFormData['_METHOD'] == 'EDIT_EXPENSE_CATEGORY') : ?>
@@ -485,11 +485,31 @@
                                 <?php echo e($errors['newExpenseCategory'][0]); ?>
                             </div>
                         <?php endif; ?>
+
+                        <div class="form-check my-3">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckAddLimit">
+                            <label class="form-check-label" for="flexCheckAddLimit">
+                                Dodaj limit dla kategorii
+                            </label>
+                        </div>
+
+                        <div class="form-floating" id="floatingLimitContainer" style="display: none;">
+                            <input value="<?php echo e($oldFormData['value'] ?? ''); ?>"
+                                type="number" step=0.01 class="form-control" id="floatingLimit" placeholder="" name="value">
+                            <label for="floatingLimit"><i class="bi bi-currency-dollar"></i>Limit</label>
+                        </div>
+
+                        <?php if (array_key_exists('value', $errors)) : ?>
+                            <div class="error">
+                                <?php echo e($errors['value'][0]); ?>
+                            </div>
+                        <?php endif; ?>
+
                     </div>
                     <div class="modal-footer">
                         <p style="text-align: center">Uwaga: Zmieniając nazwę kategorii zmieniasz także kategorię przypisaną do dotychczasowych wydatków.</p>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
-                        <input type="submit" value="Zmień nazwę" class="btn btn-primary" data-bs-dismiss="modal" />
+                        <input type="submit" value="Potwierdź" class="btn btn-primary" data-bs-dismiss="modal" />
                     </div>
                 </form>
             </div>

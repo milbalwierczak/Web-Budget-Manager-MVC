@@ -340,4 +340,46 @@ class TransactionService
             ]
         );
     }
+
+
+    public function getLimitByCategory(string $category)
+    {
+        $category = urldecode($category);
+
+        $limit = $this->db->query(
+            "SELECT category_limit
+            FROM expenses_category_assigned_to_users
+            WHERE user_id = :user_id AND name = :name",
+            [
+                'user_id' => $_SESSION['user'],
+                'name' => $category,
+            ]
+        )->find();
+
+        return floatval($limit['category_limit']);
+    }
+
+    public function getLimitSpentByCategory(string $category, string $date)
+    {
+        $category = urldecode($category);
+        $dateFormatted = new \DateTime($date);
+
+        $firstDay = $dateFormatted->modify('first day of this month')->format('Y-m-d');
+        $lastDay = $dateFormatted->modify('last day of this month')->format('Y-m-d');
+
+        $total = $this->db->query(
+            "SELECT SUM(e.amount) AS total_amount FROM expenses AS e, 
+      expenses_category_assigned_to_users AS c WHERE e.expense_category_assigned_to_user_id = c.id 
+      AND e.user_id = :user_id AND e.date_of_expense BETWEEN :start_date AND :end_date AND c.name = :name",
+            [
+                'user_id' => $_SESSION['user'],
+                'start_date' => $firstDay,
+                'end_date' => $lastDay,
+                'name' => $category
+            ]
+        )->find();
+
+
+        return $total['total_amount'];
+    }
 }

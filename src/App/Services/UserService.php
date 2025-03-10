@@ -351,12 +351,13 @@ class UserService
 
         $this->db->query(
             "UPDATE expenses_category_assigned_to_users
-            SET name = :new_name
+            SET name = :new_name, category_limit = :new_limit
             WHERE user_id = :user_id AND name = :name",
             [
                 'user_id' => $_SESSION['user'],
                 'name' => $formData['category'],
                 'new_name' => $name,
+                'new_limit' => $formData['value'],
             ]
         );
     }
